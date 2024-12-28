@@ -1,6 +1,7 @@
 package dev.noterepo.app.presentation.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -43,7 +44,11 @@ fun OnboardingScreen(modifier: Modifier = Modifier, onComplete: () -> Unit) {
                     .padding(horizontal = 12.dp, vertical = 12.dp)
             ) {
                 Image(
-                    painter = painterResource(R.drawable.noterepo_logo_white),
+                    painter = painterResource(
+                        if (isSystemInDarkTheme())
+                            R.drawable.noterepo_logo_white
+                        else R.drawable.noterepo_logo_black
+                    ),
                     contentDescription = "NoteRepo",
                     modifier = Modifier.width(200.dp)
                 )
@@ -67,12 +72,9 @@ fun OnboardingScreen(modifier: Modifier = Modifier, onComplete: () -> Unit) {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 FilledIconButton(
-                    onClick = onComplete,
-                    colors = IconButtonDefaults.filledIconButtonColors(
+                    onClick = onComplete, colors = IconButtonDefaults.filledIconButtonColors(
                         containerColor = MaterialTheme.colorScheme.onSurface
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(8.dp)
+                    ), modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(8.dp)
                 ) {
                     Text(
                         text = stringResource(R.string.onboarding_btn_next),
