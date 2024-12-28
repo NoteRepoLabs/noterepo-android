@@ -9,12 +9,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import dev.noterepo.app.data.local.preferences.PreferenceKeys
 import dev.noterepo.app.presentation.screens.OnboardingScreen
+import dev.noterepo.app.presentation.screens.SignUpScreen
 import dev.noterepo.app.presentation.ui.NoteRepoTheme
+import dev.noterepo.app.util.dataStore
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -22,6 +32,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val splashScreen = installSplashScreen()
+
         splashScreen.setKeepOnScreenCondition { true }
 
         lifecycleScope.launch {
@@ -32,9 +43,21 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
+            val context = LocalContext.current
+            var showOnboarding by remember { mutableStateOf(false) }
+
+            LaunchedEffect(Unit) {
+                showOnboarding =
+                    context.dataStore.data.first()[PreferenceKeys.ONBOARDING_COMPLETED] ?: true
+            }
+
             NoteRepoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                   OnboardingScreen(modifier = Modifier.padding((innerPadding)))
+                    if (showOnboarding) {
+                        OnboardingScreen(modifier = Modifier.padding((innerPadding)))
+                    } else {
+                        SignUpScreen()
+                    }
                 }
             }
         }
