@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -26,7 +27,7 @@ import dev.noterepo.app.R
 import dev.noterepo.app.presentation.ui.Typography
 
 @Composable
-fun OnboardingScreen(modifier: Modifier = Modifier) {
+fun OnboardingScreen(modifier: Modifier = Modifier, onComplete: () -> Unit) {
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
@@ -44,8 +45,7 @@ fun OnboardingScreen(modifier: Modifier = Modifier) {
                 Image(
                     painter = painterResource(R.drawable.noterepo_logo_white),
                     contentDescription = "NoteRepo",
-                    modifier = Modifier
-                        .width(200.dp)
+                    modifier = Modifier.width(200.dp)
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))
@@ -67,9 +67,12 @@ fun OnboardingScreen(modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 FilledIconButton(
-                    onClick = {}, colors = IconButtonDefaults.filledIconButtonColors(
+                    onClick = onComplete,
+                    colors = IconButtonDefaults.filledIconButtonColors(
                         containerColor = MaterialTheme.colorScheme.onSurface
-                    ), modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(8.dp)
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(8.dp)
                 ) {
                     Text(
                         text = stringResource(R.string.onboarding_btn_next),
