@@ -1,3 +1,9 @@
+/**
+ * 2025 - NoteRepo Engineering
+ * Source Code for NoteRepo's Android App
+ * GPL-v3 Open Source License
+ */
+
 package dev.noterepo.app.util
 
 import android.content.Context

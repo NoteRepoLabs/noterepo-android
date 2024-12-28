@@ -1,16 +1,19 @@
+/**
+ * 2025 - NoteRepo Engineering
+ * Source Code for NoteRepo's Android App
+ * GPL-v3 Open Source License
+ */
+
 package dev.noterepo.app
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,7 +30,6 @@ import dev.noterepo.app.data.local.preferences.PreferenceKeys
 import dev.noterepo.app.presentation.screens.OnboardingScreen
 import dev.noterepo.app.presentation.screens.SignUpScreen
 import dev.noterepo.app.presentation.ui.NoteRepoTheme
-import dev.noterepo.app.util.dataStore
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
