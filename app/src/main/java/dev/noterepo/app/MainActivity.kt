@@ -10,13 +10,26 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import dev.noterepo.app.ui.theme.NoteRepoTheme
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
+import dev.noterepo.app.ui.config.NoteRepoTheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val splashScreen = installSplashScreen()
+        splashScreen.setKeepOnScreenCondition { true }
+
+        lifecycleScope.launch {
+            delay(1000)
+            splashScreen.setKeepOnScreenCondition { false }
+        }
+
         enableEdgeToEdge()
+
         setContent {
             NoteRepoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->

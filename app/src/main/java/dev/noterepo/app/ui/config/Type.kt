@@ -1,4 +1,4 @@
-package dev.noterepo.app.ui.theme
+package dev.noterepo.app.ui.config
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
