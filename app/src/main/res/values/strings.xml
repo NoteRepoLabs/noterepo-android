@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">NoteRepo</string>
+    <string name="onboarding_heading">Welcome to NoteRepo</string>
+    <string name="onboarding_body">
+        NoteRepo is a collaborative platform designed to make studying easier by sharing and accessing course materials in one place.
+    </string>
+    <string name="onboarding_btn_next">Let\'s Get Started</string>
 </resources>
