@@ -10,6 +10,7 @@
     <!--  SIGN UP  -->
     <string name="signup_intro">Welcome to NoteRepo, the collaborative study platform. Let\'s create an account to get started.</string>
     <string name="signup_btn">Sign Up</string>
+    <string name="signup_progress">Signing Up</string>
 
     <!--  GENERAL  -->
     <string name="acknowledgement">By signing up you agree to NoteRepo\'s privacy policy.</string>

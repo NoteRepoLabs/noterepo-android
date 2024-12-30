@@ -10,12 +10,11 @@
  *
  */
 
-package dev.noterepo.app.domain.repositories
+package dev.noterepo.app.presentation.state
 
-import dev.noterepo.app.domain.models.SignUpRequest
-import dev.noterepo.app.domain.models.SignUpResponse
-
-interface AuthRepository {
-    suspend fun signUp(request: SignUpRequest): Result<SignUpResponse>
-    // suspend fun signIn(request: SignInRequest): Result<SignInResponse>
+sealed class SignUpUiState {
+    data object Idle: SignUpUiState()
+    data object Loading: SignUpUiState()
+    data class Success(val message: String): SignUpUiState()
+    data class Error(val message: String): SignUpUiState()
 }

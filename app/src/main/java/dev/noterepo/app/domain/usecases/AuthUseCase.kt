@@ -10,12 +10,19 @@
  *
  */
 
-package dev.noterepo.app.domain.repositories
+package dev.noterepo.app.domain.usecases
 
 import dev.noterepo.app.domain.models.SignUpRequest
 import dev.noterepo.app.domain.models.SignUpResponse
+import dev.noterepo.app.domain.repositories.AuthRepository
+import javax.inject.Inject
 
-interface AuthRepository {
-    suspend fun signUp(request: SignUpRequest): Result<SignUpResponse>
-    // suspend fun signIn(request: SignInRequest): Result<SignInResponse>
+class AuthUseCase @Inject constructor (private val authRepository: AuthRepository) {
+    // SignUp function
+    suspend fun signUp(request: SignUpRequest): Result<SignUpResponse> {
+        return authRepository.signUp(request)
+    }
+
+    // SignIn
+    // SignOut
 }

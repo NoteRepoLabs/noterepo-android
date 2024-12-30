@@ -12,19 +12,29 @@
 
 package dev.noterepo.app.presentation.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.noterepo.app.domain.models.ApiError
+import dev.noterepo.app.domain.models.SignUpRequest
+import dev.noterepo.app.domain.usecases.AuthUseCase
+import dev.noterepo.app.presentation.state.SignUpUiState
 import dev.noterepo.app.util.emailRegex
+import dev.noterepo.app.util.parseError
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor() : ViewModel() {
-    private val tag = "SignUp"
-
+class SignUpViewModel @Inject constructor(
+    private val authUseCase: AuthUseCase
+) : ViewModel() {
+    // private val tag = "SignUp"
+    private val _uiState = mutableStateOf<SignUpUiState>(SignUpUiState.Idle)
+    private val _snackbarMessage = mutableStateOf<String?>(null)
     private val _emailAddress = mutableStateOf("")
     private val _password = mutableStateOf("")
     private val _isEnabled = derivedStateOf {
@@ -33,12 +43,42 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
                 password.value.length >= 8
     }
 
+    val uiState: State<SignUpUiState> = _uiState
+    val snackbarMessage: State<String?> = _snackbarMessage
     val emailAddress: State<String> = _emailAddress
     val password: State<String> = _password
     val isEnabled: State<Boolean> = _isEnabled
 
     fun signUp() {
+        _uiState.value = SignUpUiState.Loading
 
+        val request = SignUpRequest(
+            email = emailAddress.value,
+            password = password.value
+        )
+
+        viewModelScope.launch {
+            val result = authUseCase.signUp(request)
+            _uiState.value = when {
+                result.isSuccess -> {
+                    SignUpUiState.Success("Redirect to verify email")
+                }
+                result.isFailure -> {
+                    val errorMessage = result.exceptionOrNull()?.message
+                    val msg = try {
+                        val res = Gson().fromJson(errorMessage, ApiError::class.java)
+                        res.message
+                    } catch (e: Exception) {
+                        "Something went wrong"
+                    }
+
+                    println("msg: $msg")
+                    _snackbarMessage.value = msg
+                    SignUpUiState.Error(result.exceptionOrNull()?.message.orEmpty())
+                }
+                else -> SignUpUiState.Idle
+            }
+        }
     }
 
     fun updateEmailAddress(value: String) {
@@ -49,4 +89,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
         _password.value = value
     }
 
+    fun resetSnackbarMessage() {
+        _snackbarMessage.value = null
+    }
 }

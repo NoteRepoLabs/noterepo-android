@@ -24,9 +24,14 @@ import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -37,18 +42,40 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import dev.noterepo.app.R
 import dev.noterepo.app.presentation.components.CustomTextField
 import dev.noterepo.app.presentation.components.NoteRepoLogo
+import dev.noterepo.app.presentation.state.SignUpUiState
 import dev.noterepo.app.presentation.ui.Typography
 import dev.noterepo.app.presentation.viewmodels.SignUpViewModel
 import dev.noterepo.app.util.emailRegex
 
 @Composable
 fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hiltViewModel()) {
+    val uiState by viewModel.uiState
     val emailAddress by viewModel.emailAddress
     val password by viewModel.password
     val isEnabled by viewModel.isEnabled
 
+    val snackbarMessage by viewModel.snackbarMessage
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(snackbarMessage) {
+        snackbarMessage?.let { msg ->
+            snackbarHostState.showSnackbar(msg)
+            viewModel.resetSnackbarMessage()
+        }
+    }
+
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.surface
+        containerColor = MaterialTheme.colorScheme.surface,
+        snackbarHost = {
+            SnackbarHost(snackbarHostState) { data ->
+                Snackbar(
+                    snackbarData = data,
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                    shape = RoundedCornerShape(12.dp)
+                )
+            }
+        }
     ) { innerPadding ->
         Box(
             modifier = modifier
@@ -112,7 +139,10 @@ fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hil
                     enabled = isEnabled
                 ) {
                     Text(
-                        text = stringResource(R.string.signup_btn),
+                        text = if (uiState is SignUpUiState.Loading)
+                            stringResource(R.string.signup_progress)
+                        else
+                            stringResource(R.string.signup_btn),
                         style = Typography.bodyLarge,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.surface,

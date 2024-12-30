@@ -12,14 +12,12 @@
 
 package dev.noterepo.app.data.repositories
 
-import com.google.gson.Gson
 import dev.noterepo.app.data.mappers.SignUpMapper
-import dev.noterepo.app.data.models.ApiErrorDTO
 import dev.noterepo.app.data.remote.ApiService
 import dev.noterepo.app.domain.models.SignUpRequest
 import dev.noterepo.app.domain.models.SignUpResponse
 import dev.noterepo.app.domain.repositories.AuthRepository
-import okhttp3.ResponseBody
+import dev.noterepo.app.util.parseError
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -43,9 +41,5 @@ class AuthRepositoryImpl @Inject constructor(
             }
             Result.failure(Exception(signUpMapper.toErrorDomain(errorDTO!!).message))
         }
-    }
-
-    private fun parseError(errorBody: ResponseBody): ApiErrorDTO {
-        return Gson().fromJson(errorBody.string(), ApiErrorDTO::class.java)
     }
 }
