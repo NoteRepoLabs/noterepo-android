@@ -39,11 +39,13 @@ import dev.noterepo.app.presentation.components.CustomTextField
 import dev.noterepo.app.presentation.components.NoteRepoLogo
 import dev.noterepo.app.presentation.ui.Typography
 import dev.noterepo.app.presentation.viewmodels.SignUpViewModel
+import dev.noterepo.app.util.emailRegex
 
 @Composable
 fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hiltViewModel()) {
     val emailAddress by viewModel.emailAddress
     val password by viewModel.password
+    val isEnabled by viewModel.isEnabled
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surface
@@ -60,10 +62,12 @@ fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hil
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                // NoteRepo Logo
                 NoteRepoLogo(size = 160)
 
                 Spacer(modifier = Modifier.height(24.dp))
 
+                // Sign Up Screen Intro
                 Text(
                     text = stringResource(R.string.signup_intro),
                     style = Typography.bodyMedium,
@@ -73,26 +77,31 @@ fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hil
 
                 Spacer(modifier = Modifier.height(24.dp))
 
+                // Email Address Text Field
                 CustomTextField(
                     value = emailAddress,
                     onValueChange = viewModel::updateEmailAddress,
                     type = "email",
-                    placeholder = { Text(text = "Email Address", style = Typography.bodySmall) }
+                    placeholder = { Text(text = "Email Address", style = Typography.bodySmall) },
+                    isError = emailAddress.isNotEmpty() && !emailAddress.matches(emailRegex)
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
 
+                // Password Text Field
                 CustomTextField(
                     value = password,
                     onValueChange = viewModel::updatePassword,
                     type = "password",
-                    placeholder = { Text(text = "Password", style = Typography.bodySmall) }
+                    placeholder = { Text(text = "Password", style = Typography.bodySmall) },
+                    isError = password.isNotEmpty() && password.length < 8
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
 
+                // Sign Up Button
                 FilledIconButton(
-                    onClick = {},
+                    onClick = { viewModel.signUp() },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp),
@@ -100,6 +109,7 @@ fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hil
                     colors = IconButtonDefaults.filledIconButtonColors(
                         containerColor = MaterialTheme.colorScheme.onSurface
                     ),
+                    enabled = isEnabled
                 ) {
                     Text(
                         text = stringResource(R.string.signup_btn),
