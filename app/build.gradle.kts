@@ -2,7 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.dev.tools)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -38,14 +39,29 @@ android {
     buildFeatures {
         compose = true
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
 }
 
 dependencies {
+    // splashscreen
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.datastore.preferences)
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
 
+    // Preferences Datastore
+    implementation(libs.androidx.datastore.preferences)
+
+    // Dagger Hilt
+    implementation(libs.hilt.android.v249)
+    ksp(libs.dagger.compiler)
+    ksp(libs.hilt.android.compiler)
+
+    // Hilt for Navigation
+    implementation(libs.androidx.hilt.navigation.compose)
+
+    // Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

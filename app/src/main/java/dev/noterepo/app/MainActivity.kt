@@ -1,7 +1,13 @@
 /**
- * 2025 - NoteRepo Engineering
- * Source Code for NoteRepo's Android App
- * GPL-v3 Open Source License
+ * 2025 - NoteRepo Engineering, Source Code for NoteRepo's Android App
+ *
+ *                     GNU GENERAL PUBLIC LICENSE
+ *                        Version 3, 29 June 2007
+ *
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ *  Everyone is permitted to copy and distribute verbatim copies
+ *  of this license document, but changing it is not allowed.
+ *
  */
 
 package dev.noterepo.app
@@ -26,6 +32,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import dev.noterepo.app.data.local.preferences.PreferenceKeys
 import dev.noterepo.app.presentation.screens.OnboardingScreen
 import dev.noterepo.app.presentation.screens.SignUpScreen
@@ -34,6 +41,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val Context.dataStore by preferencesDataStore(name = "onboarding_preferences")
 

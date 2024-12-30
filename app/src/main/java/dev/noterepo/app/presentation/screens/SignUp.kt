@@ -1,7 +1,13 @@
 /**
- * 2025 - NoteRepo Engineering
- * Source Code for NoteRepo's Android App
- * GPL-v3 Open Source License
+ * 2025 - NoteRepo Engineering, Source Code for NoteRepo's Android App
+ *
+ *                     GNU GENERAL PUBLIC LICENSE
+ *                        Version 3, 29 June 2007
+ *
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ *  Everyone is permitted to copy and distribute verbatim copies
+ *  of this license document, but changing it is not allowed.
+ *
  */
 
 package dev.noterepo.app.presentation.screens
@@ -20,19 +26,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import dev.noterepo.app.R
 import dev.noterepo.app.presentation.components.CustomTextField
 import dev.noterepo.app.presentation.components.NoteRepoLogo
 import dev.noterepo.app.presentation.ui.Typography
+import dev.noterepo.app.presentation.viewmodels.SignUpViewModel
 
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier) {
+fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hiltViewModel()) {
+    val emailAddress by viewModel.emailAddress
+    val password by viewModel.password
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
@@ -62,8 +74,8 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.height(24.dp))
 
                 CustomTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = emailAddress,
+                    onValueChange = viewModel::updateEmailAddress,
                     type = "email",
                     placeholder = { Text(text = "Email Address", style = Typography.bodySmall) }
                 )
@@ -71,8 +83,8 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.height(12.dp))
 
                 CustomTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = password,
+                    onValueChange = viewModel::updatePassword,
                     type = "password",
                     placeholder = { Text(text = "Password", style = Typography.bodySmall) }
                 )
