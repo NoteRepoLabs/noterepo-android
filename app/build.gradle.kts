@@ -61,6 +61,11 @@ dependencies {
     // Hilt for Navigation
     implementation(libs.androidx.hilt.navigation.compose)
 
+    // Retrofit + OkHttp
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+
     // Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
