@@ -39,6 +39,8 @@ class AuthRepositoryImpl @Inject constructor(
             val errorDTO = e.response()?.errorBody()?.let {
                 parseError(it)
             }
+            val serverMessage = signUpMapper.toErrorDomain(errorDTO!!)
+
             Result.failure(Exception(signUpMapper.toErrorDomain(errorDTO!!).message))
         }
     }

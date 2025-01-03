@@ -37,6 +37,16 @@ class SignUpViewModel @Inject constructor(
     private val _snackbarMessage = mutableStateOf<String?>(null)
     private val _emailAddress = mutableStateOf("")
     private val _password = mutableStateOf("")
+    private val _uiErrorMessage = derivedStateOf {
+        if (emailAddress.value.isNotEmpty() and !emailAddress.value.matches(emailRegex)) {
+            return@derivedStateOf "Email address format is invalid"
+        }
+        if (password.value.isNotEmpty() and (password.value.length < 8)) {
+            return@derivedStateOf "Password must be at least eight characters long"
+        }
+
+        return@derivedStateOf ""
+    }
     private val _isEnabled = derivedStateOf {
         emailAddress.value.isNotEmpty() &&
                 emailAddress.value.matches(emailRegex) &&
@@ -47,6 +57,7 @@ class SignUpViewModel @Inject constructor(
     val snackbarMessage: State<String?> = _snackbarMessage
     val emailAddress: State<String> = _emailAddress
     val password: State<String> = _password
+    val uiErrorMessage: State<String> = _uiErrorMessage
     val isEnabled: State<Boolean> = _isEnabled
 
     fun signUp() {
@@ -63,6 +74,7 @@ class SignUpViewModel @Inject constructor(
                 result.isSuccess -> {
                     SignUpUiState.Success("Redirect to verify email")
                 }
+
                 result.isFailure -> {
                     val errorMessage = result.exceptionOrNull()?.message
                     val msg = try {
@@ -76,6 +88,7 @@ class SignUpViewModel @Inject constructor(
                     _snackbarMessage.value = msg
                     SignUpUiState.Error(result.exceptionOrNull()?.message.orEmpty())
                 }
+
                 else -> SignUpUiState.Idle
             }
         }
