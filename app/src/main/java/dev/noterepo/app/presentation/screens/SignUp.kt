@@ -13,14 +13,10 @@
 package dev.noterepo.app.presentation.screens
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,6 +44,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import dev.noterepo.app.R
 import dev.noterepo.app.presentation.components.CustomTextField
 import dev.noterepo.app.presentation.components.NoteRepoLogo
+import dev.noterepo.app.presentation.layout.ScreenLayout
 import dev.noterepo.app.presentation.state.SignUpUiState
 import dev.noterepo.app.presentation.ui.Typography
 import dev.noterepo.app.presentation.ui.VibrantRed
@@ -85,114 +82,106 @@ fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hil
             }
         }
     ) { innerPadding ->
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+        ScreenLayout(
+            modifier = modifier,
+            innerPadding = innerPadding,
+            shouldCenter = true
         ) {
-            Column(
-                modifier = modifier
-                    .padding(12.dp)
-                    .align(Alignment.Center)
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                // NoteRepo Logo
-                NoteRepoLogo(size = 160)
+            // NoteRepo Logo
+            NoteRepoLogo(size = 160)
 
-                Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-                // Sign Up Screen Intro
-                Text(
-                    text = stringResource(R.string.signup_intro),
-                    style = Typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    textAlign = TextAlign.Center
-                )
+            // Sign Up Screen Intro
+            Text(
+                text = stringResource(R.string.signup_intro),
+                style = Typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center
+            )
 
-                Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-                // Email Address Text Field
-                CustomTextField(
-                    value = emailAddress,
-                    onValueChange = viewModel::updateEmailAddress,
-                    type = "email",
-                    placeholder = { Text(text = "Email Address", style = Typography.bodySmall) },
-                    isError = emailAddress.isNotEmpty() && !emailAddress.matches(emailRegex),
-                )
+            // Email Address Text Field
+            CustomTextField(
+                value = emailAddress,
+                onValueChange = viewModel::updateEmailAddress,
+                type = "email",
+                placeholder = { Text(text = "Email Address", style = Typography.bodySmall) },
+                isError = emailAddress.isNotEmpty() && !emailAddress.matches(emailRegex),
+            )
 
-                Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-                // Password Text Field
-                CustomTextField(
-                    value = password,
-                    onValueChange = viewModel::updatePassword,
-                    type = "password",
-                    placeholder = { Text(text = "Password", style = Typography.bodySmall) },
-                    isError = password.isNotEmpty() && password.length < 8
-                )
+            // Password Text Field
+            CustomTextField(
+                value = password,
+                onValueChange = viewModel::updatePassword,
+                type = "password",
+                placeholder = { Text(text = "Password", style = Typography.bodySmall) },
+                isError = password.isNotEmpty() && password.length < 8
+            )
 
-                // UI Error message
-                if (uiErrorMessage.isNotEmpty()) {
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    Text(
-                        text = uiErrorMessage,
-                        style = MaterialTheme.typography.labelMedium,
-                        color = VibrantRed,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                // Sign Up Button
-                FilledIconButton(
-                    onClick = { viewModel.signUp() },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = IconButtonDefaults.filledIconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.onSurface
-                    ),
-                    enabled = isEnabled,
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                         if (uiState is SignUpUiState.Loading) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(18.dp),
-                                color = MaterialTheme.colorScheme.surface,
-                                trackColor = MaterialTheme.colorScheme.surface.copy(alpha=0.0F),
-                                strokeWidth = 3.dp,
-                            )
-                            Spacer(modifier = Modifier.width(12.dp))
-                         }
-                        Text(
-                            text = if (uiState is SignUpUiState.Loading)
-                                stringResource(R.string.signup_progress)
-                            else
-                                stringResource(R.string.signup_btn),
-                            style = Typography.bodyLarge,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.surface,
-                        )
-                    }
-                }
-
+            // UI Error message
+            if (uiErrorMessage.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Text(
-                    text = stringResource(R.string.acknowledgement),
-                    style = Typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    text = uiErrorMessage,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = VibrantRed,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal
                 )
             }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Sign Up Button
+            FilledIconButton(
+                onClick = { viewModel.signUp() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                shape = RoundedCornerShape(8.dp),
+                colors = IconButtonDefaults.filledIconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.onSurface
+                ),
+                enabled = isEnabled,
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    if (uiState is SignUpUiState.Loading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(18.dp),
+                            color = MaterialTheme.colorScheme.surface,
+                            trackColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.0F),
+                            strokeWidth = 3.dp,
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                    }
+                    Text(
+                        text = if (uiState is SignUpUiState.Loading)
+                            stringResource(R.string.signup_progress)
+                        else
+                            stringResource(R.string.signup_btn),
+                        style = Typography.bodyLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.surface,
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Text(
+                text = stringResource(R.string.acknowledgement),
+                style = Typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
