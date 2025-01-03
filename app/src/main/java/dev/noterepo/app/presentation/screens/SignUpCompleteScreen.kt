@@ -24,14 +24,14 @@ import dev.noterepo.app.presentation.components.EnvelopeAnimation
 import dev.noterepo.app.presentation.layout.ScreenLayout
 
 @Composable
-fun SignUpComplete(modifier: Modifier = Modifier) {
+fun SignUpCompleteScreen(modifier: Modifier = Modifier) {
     Scaffold(containerColor = MaterialTheme.colorScheme.surface) { innerPadding ->
         ScreenLayout(modifier = modifier, innerPadding = innerPadding, shouldCenter = true) {
             EnvelopeAnimation()
             Text(
                 text = stringResource(R.string.signupcomplete_message),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha=0.5F),
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5F),
                 textAlign = TextAlign.Center
             )
         }

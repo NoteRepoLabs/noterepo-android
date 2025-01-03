@@ -35,8 +35,8 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.noterepo.app.data.local.preferences.PreferenceKeys
 import dev.noterepo.app.presentation.screens.OnboardingScreen
-import dev.noterepo.app.presentation.screens.SignUpComplete
-import dev.noterepo.app.presentation.screens.SignUpScreen
+import dev.noterepo.app.presentation.screens.SignInScreen
+import dev.noterepo.app.presentation.screens.SignUpCompleteScreen
 import dev.noterepo.app.presentation.ui.NoteRepoTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
@@ -85,8 +85,7 @@ class MainActivity : ComponentActivity() {
                         )
                     } else {
                         // SignUpScreen()
-                        // TEST: SignUp Complete Screen
-                        SignUpComplete()
+                        SignInScreen()
                     }
                 }
             }

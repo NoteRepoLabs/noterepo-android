@@ -15,6 +15,11 @@
     <!--  SIGN UP COMPLETE  -->
     <string name="signupcomplete_message">We\'ve sent you a link to verify your email address. Please check your inbox.</string>
 
+    <!--  SIGN IN  -->
+    <string name="signin_intro">We\'re excited to see you again. Your notes and ideas are right where you left them.</string>
+    <string name="signin_btn">Sign In</string>
+    <string name="signin_progress">Signing In</string>
+
     <!--  GENERAL  -->
-    <string name="acknowledgement">By signing up you agree to NoteRepo\'s privacy policy.</string>
+    <string name="acknowledgement">By using NoteRepo you agree to our terms and privacy policy.</string>
 </resources>

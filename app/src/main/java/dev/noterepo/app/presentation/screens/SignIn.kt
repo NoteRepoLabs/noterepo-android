@@ -25,8 +25,6 @@ import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,11 +46,11 @@ import dev.noterepo.app.presentation.layout.ScreenLayout
 import dev.noterepo.app.presentation.state.SignUpUiState
 import dev.noterepo.app.presentation.ui.Typography
 import dev.noterepo.app.presentation.ui.VibrantRed
-import dev.noterepo.app.presentation.viewmodels.SignUpViewModel
+import dev.noterepo.app.presentation.viewmodels.SignInViewModel
 import dev.noterepo.app.util.emailRegex
 
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hiltViewModel()) {
+fun SignInScreen(modifier: Modifier = Modifier, viewModel: SignInViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState
     val emailAddress by viewModel.emailAddress
     val password by viewModel.password
@@ -71,30 +69,14 @@ fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hil
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surface,
-        snackbarHost = {
-            SnackbarHost(snackbarHostState) { data ->
-                Snackbar(
-                    snackbarData = data,
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                    contentColor = MaterialTheme.colorScheme.onSurface,
-                    shape = RoundedCornerShape(12.dp)
-                )
-            }
-        }
     ) { innerPadding ->
-        ScreenLayout(
-            modifier = modifier,
-            innerPadding = innerPadding,
-            shouldCenter = true
-        ) {
-            // NoteRepo Logo
+        ScreenLayout(innerPadding = innerPadding, shouldCenter = true) {
             NoteRepoLogo(size = 160)
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Sign Up Screen Intro
             Text(
-                text = stringResource(R.string.signup_intro),
+                text = stringResource(R.string.signin_intro),
                 style = Typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
@@ -102,7 +84,7 @@ fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hil
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Email Address Text Field
+            // Email address text field
             CustomTextField(
                 value = emailAddress,
                 onValueChange = viewModel::updateEmailAddress,
@@ -113,7 +95,7 @@ fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hil
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Password Text Field
+            // Password text field
             CustomTextField(
                 value = password,
                 onValueChange = viewModel::updatePassword,
@@ -122,10 +104,8 @@ fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hil
                 isError = password.isNotEmpty() && password.length < 8
             )
 
-            // UI Error message
             if (uiErrorMessage.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(24.dp))
-
                 Text(
                     text = uiErrorMessage,
                     style = MaterialTheme.typography.labelMedium,
@@ -137,9 +117,9 @@ fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hil
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Sign Up Button
+            // Sign In Button
             FilledIconButton(
-                onClick = { viewModel.signUp() },
+                onClick = { /* sign in*/ },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
@@ -165,9 +145,9 @@ fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hil
                     }
                     Text(
                         text = if (uiState is SignUpUiState.Loading)
-                            stringResource(R.string.signup_progress)
+                            stringResource(R.string.signin_progress)
                         else
-                            stringResource(R.string.signup_btn),
+                            stringResource(R.string.signin_btn),
                         style = Typography.bodyLarge,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.surface,
@@ -177,6 +157,7 @@ fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hil
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            // Service acknowledgement
             Text(
                 text = stringResource(R.string.acknowledgement),
                 style = Typography.bodySmall,
