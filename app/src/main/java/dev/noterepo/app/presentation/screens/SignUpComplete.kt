@@ -12,18 +12,28 @@
 
 package dev.noterepo.app.presentation.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import dev.noterepo.app.R
+import dev.noterepo.app.presentation.components.EnvelopeAnimation
+import dev.noterepo.app.presentation.layout.ScreenLayout
 
 @Composable
 fun SignUpComplete(modifier: Modifier = Modifier) {
-    Scaffold { innerPadding ->
-        Column(modifier = modifier.padding(innerPadding).padding(12.dp)) {
-
+    Scaffold(containerColor = MaterialTheme.colorScheme.surface) { innerPadding ->
+        ScreenLayout(modifier = modifier, innerPadding = innerPadding, shouldCenter = true) {
+            EnvelopeAnimation()
+            Text(
+                text = stringResource(R.string.signupcomplete_message),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha=0.5F),
+                textAlign = TextAlign.Center
+            )
         }
     }
 }

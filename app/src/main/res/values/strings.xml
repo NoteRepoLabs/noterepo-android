@@ -12,6 +12,9 @@
     <string name="signup_btn">Sign Up</string>
     <string name="signup_progress">Signing Up</string>
 
+    <!--  SIGN UP COMPLETE  -->
+    <string name="signupcomplete_message">We\'ve sent you a link to verify your email address. Please check your inbox.</string>
+
     <!--  GENERAL  -->
     <string name="acknowledgement">By signing up you agree to NoteRepo\'s privacy policy.</string>
 </resources>

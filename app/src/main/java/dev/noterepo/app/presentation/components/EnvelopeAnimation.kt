@@ -13,17 +13,27 @@
 package dev.noterepo.app.presentation.components
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import dev.noterepo.app.R
 
 @Composable
-fun EnvelopeAnimation() {
-    val res = if (isSystemInDarkTheme()) R.raw.email_anim_light else R.raw.email_anim_dark
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(res))
+fun EnvelopeAnimation(modifier: Modifier = Modifier) {
+    val lightComposition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.email_anim_light))
+    val darkComposition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.email_anim_dark))
 
-    LottieAnimation(composition)
+    val composition = if (isSystemInDarkTheme()) lightComposition else darkComposition
+
+    LottieAnimation(
+        composition,
+        restartOnPlay = true,
+        modifier = modifier.size(180.dp)
+    )
 }

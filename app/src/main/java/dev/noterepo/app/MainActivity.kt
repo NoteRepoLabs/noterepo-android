@@ -35,6 +35,7 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.noterepo.app.data.local.preferences.PreferenceKeys
 import dev.noterepo.app.presentation.screens.OnboardingScreen
+import dev.noterepo.app.presentation.screens.SignUpComplete
 import dev.noterepo.app.presentation.screens.SignUpScreen
 import dev.noterepo.app.presentation.ui.NoteRepoTheme
 import kotlinx.coroutines.delay
@@ -62,6 +63,7 @@ class MainActivity : ComponentActivity() {
             var showOnboarding by remember { mutableStateOf(false) }
             val scope = rememberCoroutineScope()
 
+            // Check if the onboarding has already been done
             LaunchedEffect(Unit) {
                 showOnboarding =
                     !(context.dataStore.data.first()[PreferenceKeys.ONBOARDING_COMPLETED] ?: false)
@@ -82,7 +84,9 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     } else {
-                        SignUpScreen()
+                        // SignUpScreen()
+                        // TEST: SignUp Complete Screen
+                        SignUpComplete()
                     }
                 }
             }
