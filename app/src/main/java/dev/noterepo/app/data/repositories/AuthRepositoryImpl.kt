@@ -12,15 +12,16 @@
 
 package dev.noterepo.app.data.repositories
 
-import dev.noterepo.app.data.mappers.SignUpMapper
+import dev.noterepo.app.common.utils.parseError
 import dev.noterepo.app.data.mappers.SignInMapper
+import dev.noterepo.app.data.mappers.SignUpMapper
 import dev.noterepo.app.data.remote.api.ApiService
+import dev.noterepo.app.domain.models.ApiException
 import dev.noterepo.app.domain.models.SignInRequest
 import dev.noterepo.app.domain.models.SignInResponse
 import dev.noterepo.app.domain.models.SignUpRequest
 import dev.noterepo.app.domain.models.SignUpResponse
 import dev.noterepo.app.domain.repositories.AuthRepository
-import dev.noterepo.app.common.utils.parseError
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -38,21 +39,19 @@ class AuthRepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 Result.success(signUpMapper.toDomain(response.body()!!))
             } else {
-                Result.failure(
-                    Exception(
-                        response.errorBody()
-                            ?.string()
-                    )
-                )
+                val errorBody = response.errorBody()?.string()
+                val apiError = parseError(errorBody)
+
+                // update error code to match response
+                apiError.statusCode = response.code()
+
+                Result.failure(ApiException(apiError))
             }
         } catch (e: HttpException) {
-            val error = e.response()
-                ?.errorBody()
-                ?.let {
-                    parseError(it)
-                }
+            val error = parseError(e.response()?.errorBody()?.toString())
+            error.statusCode = e.code()
 
-            Result.failure(Exception(signUpMapper.toErrorDomain(error!!).message))
+            Result.failure(ApiException(error))
         }
     }
 
@@ -61,23 +60,23 @@ class AuthRepositoryImpl @Inject constructor(
         return try {
             val requestDTO = signInMapper.fromDomain(request)
             val response = apiService.signIn(requestDTO)
+
             if (response.isSuccessful) {
                 Result.success(signInMapper.toDomain(response.body()!!))
             } else {
-                Result.failure(
-                    Exception(
-                        response.errorBody()
-                            ?.string()
-                    )
-                )
+                val errorBody = response.errorBody()?.string()
+                val apiError = parseError(errorBody)
+
+                // update error code to match response
+                apiError.statusCode = response.code()
+
+                Result.failure(ApiException(apiError))
             }
         } catch (e: HttpException) {
-            val error = e.response()
-                ?.errorBody()
-                ?.let {
-                    parseError(it)
-                }
-            Result.failure(Exception(signInMapper.toErrorDomain(error!!).message))
+            val error = parseError(e.response()?.errorBody()?.toString())
+            error.statusCode = e.code()
+
+            Result.failure(ApiException(error))
         }
     }
 }

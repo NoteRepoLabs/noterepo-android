@@ -13,6 +13,12 @@
 package dev.noterepo.app.domain.models
 
 data class ApiError(
+    var statusCode: Int,
+    val status: String,
     val path: String,
     val message: String
 )
+
+class ApiException(
+    val apiError: ApiError
+) : Exception(apiError.message)

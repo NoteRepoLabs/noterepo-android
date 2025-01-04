@@ -20,18 +20,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.noterepo.app.common.utils.emailRegex
+import dev.noterepo.app.domain.models.ApiException
 import dev.noterepo.app.domain.models.SignInRequest
 import dev.noterepo.app.domain.usecases.AuthUseCase
 import dev.noterepo.app.presentation.UiState
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.net.UnknownHostException
 import javax.inject.Inject
-
-const val TAG = "SignInViewModel"
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val authUseCase: AuthUseCase
 ) : ViewModel() {
+    private val tag = "SignInViewModel"
 
     private val _uiState = mutableStateOf<UiState>(UiState.Idle)
     private val _snackbarMessage = mutableStateOf<String?>(null)
@@ -73,21 +75,49 @@ class SignInViewModel @Inject constructor(
 
         // Make API request with usecase
         viewModelScope.launch {
-            val result = authUseCase.signIn(request)
-            _uiState.value = when {
-                result.isSuccess -> {
-                    // save details
-                    Log.d(TAG, "Successfully signed in.")
-                    UiState.Success("Redirect to home screen")
-                }
+            try {
+                val result = authUseCase.signIn(request)
+                _uiState.value = when {
+                    result.isSuccess -> {
+                        // save details
+                        Log.d(tag, "Successfully signed in.")
+                        UiState.Success("Redirect to home screen")
+                    }
 
-                result.isFailure -> {
-                    val errorMessage = result.exceptionOrNull()?.message
-                    Log.d(TAG, errorMessage ?: "NONE")
-                    UiState.Error("Something went wrong")
-                }
+                    result.isFailure -> {
+                        when (val exception = result.exceptionOrNull()) {
+                            is ApiException -> {
+                                Log.d(tag, "API Error: ${exception.apiError}")
 
-                else -> UiState.Idle
+                                _snackbarMessage.value = exception.message
+                                UiState.Error(exception.message ?: "Unknown exception")
+                            }
+                            else -> {
+                                Log.d(tag, "Other Error: ${exception?.message ?: "Unknown exception"}")
+
+                                _snackbarMessage.value = "An unknown error occurred."
+                                UiState.Error("something went wrong!")
+                            }
+                        }
+                    }
+
+                    else -> UiState.Idle
+                }
+            } catch (e: HttpException) {
+                Log.e(tag, "HTTP Error: ${e.message}")
+
+                _uiState.value = UiState.Error("Network error occurred")
+                _snackbarMessage.value = "Error connecting to the server."
+            } catch (e: UnknownHostException) {
+                Log.e(tag, "No Internet: ${e.message}")
+
+                _uiState.value = UiState.Error("No internet connection")
+                _snackbarMessage.value = "Please check your internet connection."
+            } catch (e: Exception) {
+                Log.e(tag, "Generic Error: ${e.message}")
+
+                _uiState.value = UiState.Error("An unexpected error occurred")
+                _snackbarMessage.value = "Something went wrong!"
             }
         }
     }

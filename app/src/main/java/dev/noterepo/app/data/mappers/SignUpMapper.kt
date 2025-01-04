@@ -12,13 +12,11 @@
 
 package dev.noterepo.app.data.mappers
 
-import dev.noterepo.app.data.models.ApiErrorDTO
+import dev.noterepo.app.common.utils.withDefaults
 import dev.noterepo.app.data.models.SignUpRequestDTO
 import dev.noterepo.app.data.models.SignUpResponseDTO
-import dev.noterepo.app.domain.models.ApiError
 import dev.noterepo.app.domain.models.SignUpRequest
 import dev.noterepo.app.domain.models.SignUpResponse
-import dev.noterepo.app.common.utils.withDefaults
 
 class SignUpMapper {
     /**
@@ -47,16 +45,6 @@ class SignUpMapper {
         return SignUpRequestDTO(
             email = request.email,
             password = request.password
-        )
-    }
-
-    /**
-     * This returns an api error object with the appropriate error message.
-     */
-    fun toErrorDomain(errorDTO: ApiErrorDTO): ApiError {
-        return ApiError(
-            path = errorDTO.path,
-            message = errorDTO.message
         )
     }
 }

@@ -1,9 +1,14 @@
 package dev.noterepo.app.common.utils
 
 import com.google.gson.Gson
-import dev.noterepo.app.data.models.ApiErrorDTO
-import okhttp3.ResponseBody
+import dev.noterepo.app.domain.models.ApiError
 
-fun parseError(errorBody: ResponseBody): ApiErrorDTO {
-    return Gson().fromJson(errorBody.string(), ApiErrorDTO::class.java)
+fun parseError(errorBody: String?): ApiError {
+    if (errorBody == null) return ApiError(
+        statusCode = 500,
+        message = "An unknown error occurred.",
+        status = "unknown",
+        path = "unknown"
+    )
+    return Gson().fromJson(errorBody, ApiError::class.java)
 }

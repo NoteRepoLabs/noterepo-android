@@ -13,13 +13,11 @@
 package dev.noterepo.app.data.mappers
 
 import dev.noterepo.app.common.models.UserRole
-import dev.noterepo.app.data.models.ApiErrorDTO
+import dev.noterepo.app.common.utils.withDefaults
 import dev.noterepo.app.data.models.SignInRequestDTO
 import dev.noterepo.app.data.models.SignInResponseDTO
-import dev.noterepo.app.domain.models.ApiError
 import dev.noterepo.app.domain.models.SignInRequest
 import dev.noterepo.app.domain.models.SignInResponse
-import dev.noterepo.app.common.utils.withDefaults
 
 class SignInMapper {
     /**
@@ -52,16 +50,6 @@ class SignInMapper {
         return SignInRequestDTO(
             email = request.email,
             password = request.password
-        )
-    }
-
-    /**
-     * Returns API error object
-     */
-    fun toErrorDomain(errorDTO: ApiErrorDTO): ApiError {
-        return ApiError(
-            path = errorDTO.path,
-            message = errorDTO.message
         )
     }
 }
