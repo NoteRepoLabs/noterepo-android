@@ -36,9 +36,7 @@ class SignInViewModel @Inject constructor() : ViewModel() {
         return@derivedStateOf ""
     }
     private val _isEnabled = derivedStateOf {
-        emailAddress.value.isNotEmpty() &&
-                emailAddress.value.matches(emailRegex) &&
-                password.value.length >= 8
+        emailAddress.value.isNotEmpty() && emailAddress.value.matches(emailRegex) && password.value.length >= 8
     }
 
     val uiState: State<SignUpUiState> = _uiState
@@ -46,7 +44,14 @@ class SignInViewModel @Inject constructor() : ViewModel() {
     val emailAddress: State<String> = _emailAddress
     val password: State<String> = _password
     val uiErrorMessage: State<String> = _uiErrorMessage
-    val isEnabled: State<Boolean> = _isEnabled
+
+    fun signIn() {
+        if (!_isEnabled.value) {
+            _snackbarMessage.value =
+                uiErrorMessage.value.ifEmpty { "Please fill all fields." }
+            return
+        }
+    }
 
     fun updateEmailAddress(value: String) {
         _emailAddress.value = value

@@ -31,14 +31,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import dev.noterepo.app.core.navigation.NoteRepoNavGraph
 import dev.noterepo.app.data.local.preferences.PreferenceKeys
 import dev.noterepo.app.presentation.screens.OnboardingScreen
-import dev.noterepo.app.presentation.screens.SignInScreen
-import dev.noterepo.app.presentation.screens.SignUpCompleteScreen
 import dev.noterepo.app.presentation.ui.NoteRepoTheme
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -48,45 +46,46 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val splashScreen = installSplashScreen()
+        var keepSplashScreenOn = true
 
-        splashScreen.setKeepOnScreenCondition { true }
-
-        lifecycleScope.launch {
-            delay(500)
-            splashScreen.setKeepOnScreenCondition { false }
-        }
+        splashScreen.setKeepOnScreenCondition { keepSplashScreenOn }
 
         enableEdgeToEdge()
+
         setContent {
             val context = LocalContext.current
-            var showOnboarding by remember { mutableStateOf(false) }
+            val navController = rememberNavController()
             val scope = rememberCoroutineScope()
+            var showOnboarding by remember {mutableStateOf<Boolean?>(null)}
 
-            // Check if the onboarding has already been done
+            // Resolve onboarding state in splash screen phase
             LaunchedEffect(Unit) {
-                showOnboarding =
-                    !(context.dataStore.data.first()[PreferenceKeys.ONBOARDING_COMPLETED] ?: false)
+                val prefs = context.dataStore.data.first()
+                showOnboarding = !(prefs[PreferenceKeys.ONBOARDING_COMPLETED] ?: false)
+                keepSplashScreenOn = false
             }
 
+            // Use Application NavGraph to determine first screen
             NoteRepoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    if (showOnboarding) {
-                        OnboardingScreen(
-                            modifier = Modifier.padding((innerPadding)),
-                            onComplete = {
-                                scope.launch {
-                                    context.dataStore.edit { prefs ->
-                                        prefs[PreferenceKeys.ONBOARDING_COMPLETED] = true
-                                    }
-                                    showOnboarding = false
-                                }
-                            }
-                        )
-                    } else {
-                        // SignUpScreen()
-                        SignInScreen()
-                    }
+                   when (showOnboarding) {
+                       null -> {}
+                       true -> OnboardingScreen(modifier = Modifier.padding(innerPadding),
+                           onComplete = {
+                               scope.launch {
+                                   context.dataStore.edit { prefs ->
+                                       prefs[PreferenceKeys.ONBOARDING_COMPLETED] = true
+                                   }
+                                   showOnboarding = false
+                               }
+                           })
+                       false ->  NoteRepoNavGraph(
+                           modifier = Modifier.padding(innerPadding),
+                           navController = navController
+                       )
+                   }
                 }
             }
         }

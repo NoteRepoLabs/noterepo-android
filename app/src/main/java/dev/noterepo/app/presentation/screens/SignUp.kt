@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.noterepo.app.R
+import dev.noterepo.app.presentation.components.CustomSnackBar
 import dev.noterepo.app.presentation.components.CustomTextField
 import dev.noterepo.app.presentation.components.NoteRepoLogo
 import dev.noterepo.app.presentation.layout.ScreenLayout
@@ -73,12 +74,7 @@ fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hil
         containerColor = MaterialTheme.colorScheme.surface,
         snackbarHost = {
             SnackbarHost(snackbarHostState) { data ->
-                Snackbar(
-                    snackbarData = data,
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                    contentColor = MaterialTheme.colorScheme.onSurface,
-                    shape = RoundedCornerShape(12.dp)
-                )
+                CustomSnackBar(data=data)
             }
         }
     ) { innerPadding ->

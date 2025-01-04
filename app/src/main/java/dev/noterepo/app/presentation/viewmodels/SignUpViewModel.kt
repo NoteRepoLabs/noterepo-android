@@ -60,6 +60,12 @@ class SignUpViewModel @Inject constructor(
     val isEnabled: State<Boolean> = _isEnabled
 
     fun signUp() {
+        if (!_isEnabled.value) {
+            _snackbarMessage.value =
+                uiErrorMessage.value.ifEmpty { "Please fill all fields." }
+            return
+        }
+
         _uiState.value = SignUpUiState.Loading
 
         val request = SignUpRequest(

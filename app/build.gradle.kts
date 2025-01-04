@@ -47,7 +47,7 @@ android {
 }
 
 dependencies {
-    // splashscreen
+    // Splashscreen
     implementation(libs.androidx.core.splashscreen)
 
     // Preferences Datastore
@@ -68,6 +68,9 @@ dependencies {
 
     // Lottie
     implementation(libs.lottie.compose)
+
+    // Navigation Compose
+    implementation(libs.androidx.navigation.compose)
 
     // Core
     implementation(libs.androidx.core.ktx)

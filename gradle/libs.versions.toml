@@ -19,6 +19,7 @@ devtools = "2.0.21-1.0.25"
 hilt = "2.54"
 loggingInterceptor = "5.0.0-alpha.11"
 lottieCompose = "4.0.0"
+navigationCompose = "2.8.5"
 retrofit = "2.9.0"
 
 [libraries]
@@ -27,6 +28,7 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "daggerCompiler" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "daggerCompiler" }

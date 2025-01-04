@@ -25,6 +25,8 @@ import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.noterepo.app.R
+import dev.noterepo.app.presentation.components.CustomSnackBar
 import dev.noterepo.app.presentation.components.CustomTextField
 import dev.noterepo.app.presentation.components.NoteRepoLogo
 import dev.noterepo.app.presentation.layout.ScreenLayout
@@ -55,7 +58,6 @@ fun SignInScreen(modifier: Modifier = Modifier, viewModel: SignInViewModel = hil
     val emailAddress by viewModel.emailAddress
     val password by viewModel.password
     val uiErrorMessage by viewModel.uiErrorMessage
-    val isEnabled by viewModel.isEnabled
 
     val snackbarMessage by viewModel.snackbarMessage
     val snackbarHostState = remember { SnackbarHostState() }
@@ -68,7 +70,13 @@ fun SignInScreen(modifier: Modifier = Modifier, viewModel: SignInViewModel = hil
     }
 
     Scaffold(
+        modifier = modifier,
         containerColor = MaterialTheme.colorScheme.surface,
+        snackbarHost = {
+            SnackbarHost(snackbarHostState) { data ->
+                CustomSnackBar(data=data)
+            }
+        }
     ) { innerPadding ->
         ScreenLayout(innerPadding = innerPadding, shouldCenter = true) {
             NoteRepoLogo(size = 160)
@@ -119,15 +127,14 @@ fun SignInScreen(modifier: Modifier = Modifier, viewModel: SignInViewModel = hil
 
             // Sign In Button
             FilledIconButton(
-                onClick = { /* sign in*/ },
+                onClick = { viewModel.signIn() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
                 shape = RoundedCornerShape(8.dp),
                 colors = IconButtonDefaults.filledIconButtonColors(
                     containerColor = MaterialTheme.colorScheme.onSurface
-                ),
-                enabled = isEnabled,
+                )
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
