@@ -13,6 +13,7 @@
 package dev.noterepo.app.data.remote.interceptors
 
 import dev.noterepo.app.data.local.TokenManager
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response

@@ -15,7 +15,7 @@ package dev.noterepo.app.data.local
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,16 +30,16 @@ class TokenManager @Inject constructor(private val context: Context) {
         private val USER_ID_KEY = PreferenceKeys.USER_ID_KEY
     }
 
-    val accessToken = context.dataStore.map { prefs -> prefs[ACCESS_TOKEN_KEY] }
+    val accessToken = context.dataStore.data.map { prefs -> prefs[REFRESH_TOKEN_KEY] }
 
-    val refreshToken = context.dataStore.map { prefs -> prefs[REFRESH_TOKEN_KEY] }
+    val refreshToken = context.dataStore.data.map { prefs -> prefs[REFRESH_TOKEN_KEY] }
 
-    val userId = context.dataStore.map { prefs -> prefs[USER_ID_KEY] }
+    val userId = context.dataStore.data.map { prefs -> prefs[USER_ID_KEY] }
 
     // Updates authentication preferences on save.
     suspend fun saveTokens(accessToken: String, refreshToken: String, userId: String) {
         context.dataStore.edit { prefs ->
-            prefs[ACCESS_TOKEN_KEY] = accessToken,
+            prefs[ACCESS_TOKEN_KEY] = accessToken
             prefs[REFRESH_TOKEN_KEY] = refreshToken
             prefs[USER_ID_KEY] = userId
         }
