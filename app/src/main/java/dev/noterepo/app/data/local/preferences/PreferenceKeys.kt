@@ -10,7 +10,7 @@
  *
  */
 
-package dev.noterepo.app.data.local
+package dev.noterepo.app.data.local.preferences
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey

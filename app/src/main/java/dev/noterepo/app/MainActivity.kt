@@ -34,7 +34,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.noterepo.app.core.navigation.NoteRepoNavGraph
-import dev.noterepo.app.data.local.PreferenceKeys
+import dev.noterepo.app.data.local.preferences.PreferenceKeys
 import dev.noterepo.app.presentation.screens.OnboardingScreen
 import dev.noterepo.app.presentation.ui.NoteRepoTheme
 import kotlinx.coroutines.flow.first

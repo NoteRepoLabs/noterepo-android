@@ -15,6 +15,7 @@ package dev.noterepo.app.data.local
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
+import dev.noterepo.app.data.local.preferences.PreferenceKeys
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
