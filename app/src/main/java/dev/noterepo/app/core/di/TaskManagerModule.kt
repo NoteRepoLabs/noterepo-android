@@ -19,7 +19,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.noterepo.app.data.local.TokenManager
+import dev.noterepo.app.data.local.preferences.TokenManager
 import dev.noterepo.app.data.repositories.TokenRepositoryImpl
 import dev.noterepo.app.domain.repositories.TokenRepository
 import javax.inject.Singleton

@@ -13,6 +13,7 @@
 package dev.noterepo.app.data.local.preferences
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 
 object PreferenceKeys {
@@ -20,4 +21,5 @@ object PreferenceKeys {
     val ACCESS_TOKEN_KEY = stringPreferencesKey("access_token")
     val REFRESH_TOKEN_KEY = stringPreferencesKey("refresh_token")
     val USER_ID_KEY = stringPreferencesKey("user_id")
+    val LAST_LOGIN_KEY = longPreferencesKey("last_login")
 }

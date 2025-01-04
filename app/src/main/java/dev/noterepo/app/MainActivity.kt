@@ -19,6 +19,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -35,19 +36,27 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.noterepo.app.core.navigation.NoteRepoNavGraph
 import dev.noterepo.app.data.local.preferences.PreferenceKeys
+import dev.noterepo.app.data.local.preferences.TokenManager
+import dev.noterepo.app.domain.repositories.TokenRepository
+import dev.noterepo.app.presentation.screens.HomeScreen
 import dev.noterepo.app.presentation.screens.OnboardingScreen
 import dev.noterepo.app.presentation.ui.NoteRepoTheme
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val Context.dataStore by preferencesDataStore(name = "onboarding_prefs")
 
+    @Inject
+    lateinit var tokenManager: TokenManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val splashScreen = installSplashScreen()
+
         var keepSplashScreenOn = true
 
         splashScreen.setKeepOnScreenCondition { keepSplashScreenOn }
@@ -58,34 +67,54 @@ class MainActivity : ComponentActivity() {
             val context = LocalContext.current
             val navController = rememberNavController()
             val scope = rememberCoroutineScope()
-            var showOnboarding by remember {mutableStateOf<Boolean?>(null)}
 
-            // Resolve onboarding state in splash screen phase
+            var isAuthenticated by remember { mutableStateOf<Boolean?>(null) }
+            var showOnboarding by remember { mutableStateOf<Boolean?>(null) }
+
+            // Resolve onboarding and auth state in splash screen phase
             LaunchedEffect(Unit) {
-                val prefs = context.dataStore.data.first()
-                showOnboarding = !(prefs[PreferenceKeys.ONBOARDING_COMPLETED] ?: false)
+                // Launch coroutine to check onboarding status
+                launch {
+                    val prefs = context.dataStore.data.first()
+                    showOnboarding = !(prefs[PreferenceKeys.ONBOARDING_COMPLETED] ?: false)
+                }
+
+                // Launch another coroutine to check authentication status
+                launch {
+                    tokenManager.accessToken.first().let {
+                        isAuthenticated = true
+                    }
+                }
+
                 keepSplashScreenOn = false
             }
 
             // Use Application NavGraph to determine first screen
             NoteRepoTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                   when (showOnboarding) {
-                       null -> {}
-                       true -> OnboardingScreen(modifier = Modifier.padding(innerPadding),
-                           onComplete = {
-                               scope.launch {
-                                   context.dataStore.edit { prefs ->
-                                       prefs[PreferenceKeys.ONBOARDING_COMPLETED] = true
-                                   }
-                                   showOnboarding = false
-                               }
-                           })
-                       false ->  NoteRepoNavGraph(
-                           modifier = Modifier.padding(innerPadding),
-                           navController = navController
-                       )
-                   }
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    containerColor = MaterialTheme.colorScheme.surface
+                ) { innerPadding ->
+                    when {
+                        showOnboarding == null || isAuthenticated == null -> {}
+
+                        showOnboarding == true -> OnboardingScreen(modifier = Modifier.padding(innerPadding),
+                            onComplete = {
+                                scope.launch {
+                                    context.dataStore.edit { prefs ->
+                                        prefs[PreferenceKeys.ONBOARDING_COMPLETED] = true
+                                    }
+                                    showOnboarding = false
+                                }
+                            })
+
+                        isAuthenticated == true -> HomeScreen()
+
+                        else -> NoteRepoNavGraph(
+                            modifier = Modifier.padding(innerPadding),
+                            navController = navController
+                        )
+                    }
                 }
             }
         }

@@ -12,7 +12,7 @@
 
 package dev.noterepo.app.data.repositories
 
-import dev.noterepo.app.data.local.TokenManager
+import dev.noterepo.app.data.local.preferences.TokenManager
 import dev.noterepo.app.domain.repositories.TokenRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

@@ -22,12 +22,13 @@ import androidx.datastore.preferences.core.edit
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import dev.noterepo.app.common.utils.dataStore
 import dev.noterepo.app.data.local.preferences.PreferenceKeys
+import dev.noterepo.app.presentation.screens.HomeScreen
 import dev.noterepo.app.presentation.screens.OnboardingScreen
 import dev.noterepo.app.presentation.screens.SignInScreen
 import dev.noterepo.app.presentation.screens.SignUpCompleteScreen
 import dev.noterepo.app.presentation.screens.SignUpScreen
-import dev.noterepo.app.common.utils.dataStore
 import kotlinx.coroutines.launch
 
 @Composable
@@ -63,6 +64,7 @@ fun NoteRepoNavGraph(
                 }
             })
         }
+
         composable(
             route = "signin",
             enterTransition = {
@@ -72,7 +74,19 @@ fun NoteRepoNavGraph(
                 )
             }
         ) { SignInScreen() }
+
         composable("signup") { SignUpScreen() }
+
         composable("signup_complete") { SignUpCompleteScreen() }
+
+        composable(
+            route = "home",
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Up,
+                    tween(1000)
+                )
+            }
+        ) { HomeScreen() }
     }
 }
