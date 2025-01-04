@@ -19,7 +19,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.noterepo.app.data.mappers.SignInMapper
 import dev.noterepo.app.data.mappers.SignUpMapper
-import dev.noterepo.app.data.remote.ApiService
+import dev.noterepo.app.data.remote.api.ApiService
 import dev.noterepo.app.data.repositories.AuthRepositoryImpl
 import dev.noterepo.app.domain.repositories.AuthRepository
 import dev.noterepo.app.domain.usecases.AuthUseCase

@@ -22,7 +22,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import dev.noterepo.app.data.local.preferences.PreferenceKeys
+import dev.noterepo.app.data.local.PreferenceKeys
 import dev.noterepo.app.presentation.screens.OnboardingScreen
 import dev.noterepo.app.presentation.screens.SignInScreen
 import dev.noterepo.app.presentation.screens.SignUpCompleteScreen

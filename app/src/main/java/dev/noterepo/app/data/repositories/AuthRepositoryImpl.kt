@@ -14,7 +14,7 @@ package dev.noterepo.app.data.repositories
 
 import dev.noterepo.app.data.mappers.SignUpMapper
 import dev.noterepo.app.data.mappers.SignInMapper
-import dev.noterepo.app.data.remote.ApiService
+import dev.noterepo.app.data.remote.api.ApiService
 import dev.noterepo.app.domain.models.SignInRequest
 import dev.noterepo.app.domain.models.SignInResponse
 import dev.noterepo.app.domain.models.SignUpRequest

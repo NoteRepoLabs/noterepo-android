@@ -10,10 +10,14 @@
  *
  */
 
-package dev.noterepo.app.data.local.preferences
+package dev.noterepo.app.data.local
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 
 object PreferenceKeys {
     val ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
+    val ACCESS_TOKEN_KEY = stringPreferencesKey("access_token")
+    val REFRESH_TOKEN_KEY = stringPreferencesKey("refresh_token")
+    val USER_ID_KEY = stringPreferencesKey("user_id")
 }

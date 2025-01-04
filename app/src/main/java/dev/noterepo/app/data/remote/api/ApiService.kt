@@ -10,7 +10,7 @@
  *
  */
 
-package dev.noterepo.app.data.remote
+package dev.noterepo.app.data.remote.api
 
 import dev.noterepo.app.data.models.SignInRequestDTO
 import dev.noterepo.app.data.models.SignInResponseDTO
