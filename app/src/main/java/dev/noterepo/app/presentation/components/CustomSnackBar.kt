@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CustomSnackBar(modifier: Modifier = Modifier, data: SnackbarData) {
     Snackbar(
+        modifier = modifier,
         snackbarData = data,
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
         contentColor = MaterialTheme.colorScheme.onSurface,

@@ -25,7 +25,6 @@ import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -54,7 +53,6 @@ import dev.noterepo.app.presentation.components.NoteRepoLogo
 import dev.noterepo.app.presentation.layout.ScreenLayout
 import dev.noterepo.app.presentation.state.SignUpUiState
 import dev.noterepo.app.presentation.ui.Typography
-import dev.noterepo.app.presentation.ui.VibrantGreen
 import dev.noterepo.app.presentation.ui.VibrantRed
 import dev.noterepo.app.presentation.viewmodels.SignInViewModel
 import dev.noterepo.app.util.emailRegex

@@ -83,32 +83,36 @@ fun CustomPasswordField(
         value = value,
         onValueChange = onValueChange,
         placeholder = placeholder,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(50.dp),
         singleLine = true,
         maxLines = 1,
         shape = RoundedCornerShape(8.dp),
+        visualTransformation =
+            if (isPasswordVisible) VisualTransformation.None
+            else PasswordVisualTransformation(),
+        textStyle = MaterialTheme.typography.bodyMedium.copy(fontSize = 12.sp),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(50.dp),
         colors = OutlinedTextFieldDefaults.colors(
             unfocusedBorderColor = if (isError) VibrantRed else MaterialTheme.colorScheme.outline,
             focusedBorderColor = if (isError) VibrantRed else MaterialTheme.colorScheme.onSurface,
             unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
             focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer
         ),
-        trailingIcon =  {
+        trailingIcon = {
             IconButton(onClick = { invertPasswordVisibility() }) {
                 if (isPasswordVisible) {
                     Icon(
                         painter = painterResource(R.drawable.icon_eye_slash),
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha=0.6F),
+                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6F),
                         modifier = Modifier.size(18.dp)
                     )
                 } else {
                     Icon(
                         painter = painterResource(R.drawable.icon_eye_default),
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha=0.6F),
+                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6F),
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -117,7 +121,5 @@ fun CustomPasswordField(
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password
         ),
-        visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-        textStyle = MaterialTheme.typography.bodyMedium.copy(fontSize = 12.sp),
     )
 }
