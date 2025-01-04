@@ -45,7 +45,7 @@ import dev.noterepo.app.presentation.components.CustomSnackBar
 import dev.noterepo.app.presentation.components.CustomTextField
 import dev.noterepo.app.presentation.components.NoteRepoLogo
 import dev.noterepo.app.presentation.layout.ScreenLayout
-import dev.noterepo.app.presentation.state.SignUpUiState
+import dev.noterepo.app.presentation.UiState
 import dev.noterepo.app.presentation.ui.Typography
 import dev.noterepo.app.presentation.ui.VibrantRed
 import dev.noterepo.app.presentation.viewmodels.SignUpViewModel
@@ -149,7 +149,7 @@ fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hil
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    if (uiState is SignUpUiState.Loading) {
+                    if (uiState is UiState.Loading) {
                         CircularProgressIndicator(
                             modifier = Modifier.size(18.dp),
                             color = MaterialTheme.colorScheme.surface,
@@ -159,7 +159,7 @@ fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hil
                         Spacer(modifier = Modifier.width(12.dp))
                     }
                     Text(
-                        text = if (uiState is SignUpUiState.Loading)
+                        text = if (uiState is UiState.Loading)
                             stringResource(R.string.signup_progress)
                         else
                             stringResource(R.string.signup_btn),

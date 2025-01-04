@@ -12,6 +12,7 @@
 
 package dev.noterepo.app.data.models
 
+import com.google.gson.annotations.SerializedName
 import dev.noterepo.app.common.models.UserRole
 
 data class SignInRequestDTO(
@@ -31,9 +32,14 @@ data class SignInResponseDTO(
         val email: String,
         val bio: String,
         val isVerified: Boolean,
-        val role: UserRole,
+        val role: String,
+
+        @SerializedName("refresh_token")
         val refreshToken: String,
+
+        @SerializedName("access_token")
         val accessToken: String,
+
         val createdAt: String // Valid date string
     )
 }

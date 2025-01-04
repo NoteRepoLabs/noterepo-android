@@ -10,11 +10,11 @@
  *
  */
 
-package dev.noterepo.app.presentation.state
+package dev.noterepo.app.presentation
 
-sealed class SignUpUiState {
-    data object Idle: SignUpUiState()
-    data object Loading: SignUpUiState()
-    data class Success(val message: String): SignUpUiState()
-    data class Error(val message: String): SignUpUiState()
+sealed class UiState {
+    data object Idle: UiState()
+    data object Loading: UiState()
+    data class Success(val message: String): UiState()
+    data class Error(val message: String): UiState()
 }

@@ -12,6 +12,7 @@
 
 package dev.noterepo.app.data.mappers
 
+import dev.noterepo.app.common.models.UserRole
 import dev.noterepo.app.data.models.ApiErrorDTO
 import dev.noterepo.app.data.models.SignInRequestDTO
 import dev.noterepo.app.data.models.SignInResponseDTO
@@ -34,7 +35,7 @@ class SignInMapper {
                 email = it.email,
                 username = it.username,
                 bio = it.bio,
-                role = it.role,
+                role = UserRole.fromString(it.role),
                 isVerified = it.isVerified,
                 refreshToken = it.refreshToken,
                 accessToken = it.accessToken

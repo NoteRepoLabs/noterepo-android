@@ -12,13 +12,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object MapperModule {
     @Provides
-    @Singleton
     fun provideSignUpMapper(): SignUpMapper {
         return SignUpMapper()
     }
 
     @Provides
-    @Singleton
     fun provideSignInMapper(): SignInMapper {
         return SignInMapper()
     }

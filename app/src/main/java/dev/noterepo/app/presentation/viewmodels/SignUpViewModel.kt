@@ -22,7 +22,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.noterepo.app.domain.models.ApiError
 import dev.noterepo.app.domain.models.SignUpRequest
 import dev.noterepo.app.domain.usecases.AuthUseCase
-import dev.noterepo.app.presentation.state.SignUpUiState
+import dev.noterepo.app.presentation.UiState
 import dev.noterepo.app.common.utils.emailRegex
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,8 +31,7 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val authUseCase: AuthUseCase
 ) : ViewModel() {
-    // private val tag = "SignUp"
-    private val _uiState = mutableStateOf<SignUpUiState>(SignUpUiState.Idle)
+    private val _uiState = mutableStateOf<UiState>(UiState.Idle)
     private val _snackbarMessage = mutableStateOf<String?>(null)
     private val _emailAddress = mutableStateOf("")
     private val _password = mutableStateOf("")
@@ -52,7 +51,7 @@ class SignUpViewModel @Inject constructor(
                 password.value.length >= 8
     }
 
-    val uiState: State<SignUpUiState> = _uiState
+    val uiState: State<UiState> = _uiState
     val snackbarMessage: State<String?> = _snackbarMessage
     val emailAddress: State<String> = _emailAddress
     val password: State<String> = _password
@@ -66,7 +65,7 @@ class SignUpViewModel @Inject constructor(
             return
         }
 
-        _uiState.value = SignUpUiState.Loading
+        _uiState.value = UiState.Loading
 
         val request = SignUpRequest(
             email = emailAddress.value,
@@ -77,7 +76,7 @@ class SignUpViewModel @Inject constructor(
             val result = authUseCase.signUp(request)
             _uiState.value = when {
                 result.isSuccess -> {
-                    SignUpUiState.Success("Redirect to verify email")
+                    UiState.Success("Redirect to verify email")
                 }
 
                 result.isFailure -> {
@@ -89,12 +88,11 @@ class SignUpViewModel @Inject constructor(
                         "Something went wrong"
                     }
 
-                    println("msg: $msg")
                     _snackbarMessage.value = msg
-                    SignUpUiState.Error(result.exceptionOrNull()?.message.orEmpty())
+                    UiState.Error(result.exceptionOrNull()?.message.orEmpty())
                 }
 
-                else -> SignUpUiState.Idle
+                else -> UiState.Idle
             }
         }
     }

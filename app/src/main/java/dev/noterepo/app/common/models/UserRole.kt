@@ -12,7 +12,14 @@
 
 package dev.noterepo.app.common.models
 
-sealed class UserRole {
-    data object USER: UserRole()
-    data object ADMIN: UserRole()
+enum class UserRole(val type: String) {
+    USER("USER"),
+    ADMIN("ADMIN");
+
+    companion object {
+        fun fromString(type: String): UserRole {
+            return values().find { it.type == type }
+                ?: throw IllegalArgumentException("Unknown UserRole type: $type")
+        }
+    }
 }
