@@ -23,25 +23,12 @@ import dev.noterepo.app.R
 
 @Composable
 fun NoteRepoLogo(modifier: Modifier = Modifier, size: Int = 200) {
-   when (isSystemInDarkTheme()) {
-       true -> LightLogoVariant(modifier, size)
-       else -> DarkLogoVariant(modifier, size)
-   }
-}
+    val resId =
+        if (isSystemInDarkTheme()) R.drawable.noterepo_logo_white
+        else R.drawable.noterepo_logo_black
 
-@Composable
-private fun DarkLogoVariant(modifier: Modifier = Modifier, size: Int = 200) {
     Image(
-        painter = painterResource(R.drawable.noterepo_logo_black),
-        contentDescription = "NoteRepo",
-        modifier = modifier.width(size.dp)
-    )
-}
-
-@Composable
-private fun LightLogoVariant(modifier: Modifier = Modifier, size: Int = 200) {
-    Image(
-        painter = painterResource(R.drawable.noterepo_logo_white),
+        painter = painterResource(resId),
         contentDescription = "NoteRepo",
         modifier = modifier.width(size.dp)
     )
