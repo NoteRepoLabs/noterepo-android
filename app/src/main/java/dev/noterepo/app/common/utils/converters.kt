@@ -10,16 +10,15 @@
  *
  */
 
-package dev.noterepo.app.common.models
+package dev.noterepo.app.common.utils
 
-enum class UserRole(val type: String) {
-    USER("USER"),
-    ADMIN("ADMIN");
+import androidx.room.TypeConverter
+import dev.noterepo.app.common.models.UserRole
 
-    companion object {
-        fun fromString(type: String): UserRole {
-            return entries.find { it.type == type }
-                ?: throw IllegalArgumentException("Unknown UserRole type: $type")
-        }
-    }
+class Converters {
+    @TypeConverter
+    fun fromUserRole(value: UserRole): String = value.name
+
+    @TypeConverter
+    fun toUserRole(value: String): UserRole = UserRole.valueOf(value)
 }

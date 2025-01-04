@@ -23,6 +23,7 @@ import dev.noterepo.app.common.utils.emailRegex
 import dev.noterepo.app.domain.models.ApiException
 import dev.noterepo.app.domain.models.SignInRequest
 import dev.noterepo.app.domain.repositories.TokenRepository
+import dev.noterepo.app.domain.repositories.UserRepository
 import dev.noterepo.app.domain.usecases.AuthUseCase
 import dev.noterepo.app.presentation.UiState
 import kotlinx.coroutines.launch
@@ -33,7 +34,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val authUseCase: AuthUseCase,
-    private val tokenRepository: TokenRepository
+    private val tokenRepository: TokenRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
     private val tag = "SignInViewModel"
 
@@ -89,6 +91,8 @@ class SignInViewModel @Inject constructor(
                                 refreshToken = response.refreshToken,
                                 userId = response.id
                             )
+
+                            userRepository.saveUser(response)
 
                             Log.d(tag, "Successfully signed in and saved tokens")
                         }
