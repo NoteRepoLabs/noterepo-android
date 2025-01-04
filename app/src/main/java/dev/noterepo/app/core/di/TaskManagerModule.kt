@@ -20,6 +20,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.noterepo.app.data.local.TokenManager
+import dev.noterepo.app.data.repositories.TokenRepositoryImpl
+import dev.noterepo.app.domain.repositories.TokenRepository
 import javax.inject.Singleton
 
 @Module
@@ -30,6 +32,12 @@ object TaskManagerModule {
     @Singleton
     fun provideTokenManager(@ApplicationContext context: Context): TokenManager {
         return TokenManager(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTokenRepository(tokenManager: TokenManager): TokenRepository {
+        return TokenRepositoryImpl(tokenManager)
     }
 
 }
