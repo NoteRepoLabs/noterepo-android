@@ -32,22 +32,29 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.noterepo.app.R
+import dev.noterepo.app.presentation.components.CustomPasswordField
 import dev.noterepo.app.presentation.components.CustomSnackBar
 import dev.noterepo.app.presentation.components.CustomTextField
 import dev.noterepo.app.presentation.components.NoteRepoLogo
 import dev.noterepo.app.presentation.layout.ScreenLayout
 import dev.noterepo.app.presentation.state.SignUpUiState
 import dev.noterepo.app.presentation.ui.Typography
+import dev.noterepo.app.presentation.ui.VibrantGreen
 import dev.noterepo.app.presentation.ui.VibrantRed
 import dev.noterepo.app.presentation.viewmodels.SignInViewModel
 import dev.noterepo.app.util.emailRegex
@@ -62,6 +69,26 @@ fun SignInScreen(modifier: Modifier = Modifier, viewModel: SignInViewModel = hil
     val snackbarMessage by viewModel.snackbarMessage
     val snackbarHostState = remember { SnackbarHostState() }
 
+    var isPasswordVisible by remember {  mutableStateOf(false) }
+
+    val signUpInstead = buildAnnotatedString {
+        withStyle(
+            style = SpanStyle(
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        ) {
+            append(text = stringResource(R.string.signin_alternative_up))
+        }
+        withStyle(
+            style = SpanStyle(
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        ) {
+            append(text = " SignUp Instead")
+        }
+    }
+
     LaunchedEffect(snackbarMessage) {
         snackbarMessage?.let { msg ->
             snackbarHostState.showSnackbar(msg)
@@ -74,7 +101,7 @@ fun SignInScreen(modifier: Modifier = Modifier, viewModel: SignInViewModel = hil
         containerColor = MaterialTheme.colorScheme.surface,
         snackbarHost = {
             SnackbarHost(snackbarHostState) { data ->
-                CustomSnackBar(data=data)
+                CustomSnackBar(data = data)
             }
         }
     ) { innerPadding ->
@@ -104,12 +131,13 @@ fun SignInScreen(modifier: Modifier = Modifier, viewModel: SignInViewModel = hil
             Spacer(modifier = Modifier.height(12.dp))
 
             // Password text field
-            CustomTextField(
+            CustomPasswordField(
                 value = password,
                 onValueChange = viewModel::updatePassword,
-                type = "password",
                 placeholder = { Text(text = "Password", style = Typography.bodySmall) },
-                isError = password.isNotEmpty() && password.length < 8
+                isError = password.isNotEmpty() && password.length < 8,
+                isPasswordVisible = isPasswordVisible,
+                invertPasswordVisibility = { isPasswordVisible = !isPasswordVisible }
             )
 
             if (uiErrorMessage.isNotEmpty()) {
@@ -164,13 +192,18 @@ fun SignInScreen(modifier: Modifier = Modifier, viewModel: SignInViewModel = hil
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            // Sign Up Instead
+            Text(text = signUpInstead, fontSize = 14.sp)
+
+            // Spacer(modifier = Modifier.height(100.dp))
+
             // Service acknowledgement
-            Text(
+            /* Text(
                 text = stringResource(R.string.acknowledgement),
                 style = Typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
-            )
+            ) */
         }
     }
 }
