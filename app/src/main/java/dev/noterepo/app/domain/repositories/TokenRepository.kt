@@ -22,6 +22,8 @@ interface TokenRepository {
 
     fun getUserId(): Flow<String?>
 
+    fun getLastLoginMillis(): Flow<Long?>
+
     suspend fun saveTokens(accessToken: String, refreshToken: String, userId: String)
 
     suspend fun clearTokens()

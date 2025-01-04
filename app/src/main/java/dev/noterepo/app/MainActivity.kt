@@ -37,7 +37,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.noterepo.app.core.navigation.NoteRepoNavGraph
 import dev.noterepo.app.data.local.preferences.PreferenceKeys
 import dev.noterepo.app.data.local.preferences.TokenManager
-import dev.noterepo.app.domain.repositories.TokenRepository
 import dev.noterepo.app.presentation.screens.HomeScreen
 import dev.noterepo.app.presentation.screens.OnboardingScreen
 import dev.noterepo.app.presentation.ui.NoteRepoTheme

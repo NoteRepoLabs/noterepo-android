@@ -32,6 +32,10 @@ class TokenRepositoryImpl @Inject constructor(
         return tokenManager.userId
     }
 
+    override fun getLastLoginMillis(): Flow<Long?> {
+        return tokenManager.lastLogin
+    }
+
     override suspend fun saveTokens(accessToken: String, refreshToken: String, userId: String) {
         return tokenManager.saveTokens(accessToken, refreshToken, userId)
     }
