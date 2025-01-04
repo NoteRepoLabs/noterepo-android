@@ -23,7 +23,7 @@ import dev.noterepo.app.domain.models.ApiError
 import dev.noterepo.app.domain.models.SignUpRequest
 import dev.noterepo.app.domain.usecases.AuthUseCase
 import dev.noterepo.app.presentation.state.SignUpUiState
-import dev.noterepo.app.util.emailRegex
+import dev.noterepo.app.common.utils.emailRegex
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

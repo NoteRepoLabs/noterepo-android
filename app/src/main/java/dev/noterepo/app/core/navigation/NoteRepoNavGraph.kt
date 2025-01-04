@@ -27,7 +27,7 @@ import dev.noterepo.app.presentation.screens.OnboardingScreen
 import dev.noterepo.app.presentation.screens.SignInScreen
 import dev.noterepo.app.presentation.screens.SignUpCompleteScreen
 import dev.noterepo.app.presentation.screens.SignUpScreen
-import dev.noterepo.app.util.dataStore
+import dev.noterepo.app.common.utils.dataStore
 import kotlinx.coroutines.launch
 
 @Composable

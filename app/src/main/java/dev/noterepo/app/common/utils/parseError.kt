@@ -1,4 +1,4 @@
-package dev.noterepo.app.util
+package dev.noterepo.app.common.utils
 
 import com.google.gson.Gson
 import dev.noterepo.app.data.models.ApiErrorDTO

@@ -12,7 +12,7 @@
 
 package dev.noterepo.app.data.models
 
-import dev.noterepo.app.common.UserRole
+import dev.noterepo.app.common.models.UserRole
 
 data class SignInRequestDTO(
     val email: String,

@@ -10,7 +10,7 @@
  *
  */
 
-package dev.noterepo.app.common
+package dev.noterepo.app.common.models
 
 sealed class UserRole {
     data object USER: UserRole()

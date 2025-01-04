@@ -49,7 +49,7 @@ import dev.noterepo.app.presentation.state.SignUpUiState
 import dev.noterepo.app.presentation.ui.Typography
 import dev.noterepo.app.presentation.ui.VibrantRed
 import dev.noterepo.app.presentation.viewmodels.SignUpViewModel
-import dev.noterepo.app.util.emailRegex
+import dev.noterepo.app.common.utils.emailRegex
 
 @Composable
 fun SignUpScreen(modifier: Modifier = Modifier, viewModel: SignUpViewModel = hiltViewModel()) {

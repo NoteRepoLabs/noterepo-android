@@ -18,7 +18,7 @@ import dev.noterepo.app.data.models.SignInResponseDTO
 import dev.noterepo.app.domain.models.ApiError
 import dev.noterepo.app.domain.models.SignInRequest
 import dev.noterepo.app.domain.models.SignInResponse
-import dev.noterepo.app.util.withDefaults
+import dev.noterepo.app.common.utils.withDefaults
 
 class SignInMapper {
     /**

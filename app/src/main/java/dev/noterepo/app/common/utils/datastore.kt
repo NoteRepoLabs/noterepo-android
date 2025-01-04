@@ -10,7 +10,7 @@
  *
  */
 
-package dev.noterepo.app.util
+package dev.noterepo.app.common.utils
 
 import android.content.Context
 import androidx.datastore.core.DataStore

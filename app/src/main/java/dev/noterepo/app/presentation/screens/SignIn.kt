@@ -55,7 +55,7 @@ import dev.noterepo.app.presentation.state.SignUpUiState
 import dev.noterepo.app.presentation.ui.Typography
 import dev.noterepo.app.presentation.ui.VibrantRed
 import dev.noterepo.app.presentation.viewmodels.SignInViewModel
-import dev.noterepo.app.util.emailRegex
+import dev.noterepo.app.common.utils.emailRegex
 
 @Composable
 fun SignInScreen(modifier: Modifier = Modifier, viewModel: SignInViewModel = hiltViewModel()) {

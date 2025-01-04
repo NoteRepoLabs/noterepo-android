@@ -10,9 +10,9 @@
  *
  */
 
-package dev.noterepo.app.util
+package dev.noterepo.app.common.utils
 
-import dev.noterepo.app.common.UserRole
+import dev.noterepo.app.common.models.UserRole
 import dev.noterepo.app.domain.models.SignInResponse
 import dev.noterepo.app.domain.models.SignUpResponse
 

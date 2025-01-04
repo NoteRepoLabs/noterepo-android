@@ -20,7 +20,7 @@ import dev.noterepo.app.domain.models.SignInResponse
 import dev.noterepo.app.domain.models.SignUpRequest
 import dev.noterepo.app.domain.models.SignUpResponse
 import dev.noterepo.app.domain.repositories.AuthRepository
-import dev.noterepo.app.util.parseError
+import dev.noterepo.app.common.utils.parseError
 import retrofit2.HttpException
 import javax.inject.Inject
 

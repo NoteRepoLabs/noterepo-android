@@ -17,7 +17,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import dev.noterepo.app.presentation.state.SignUpUiState
-import dev.noterepo.app.util.emailRegex
+import dev.noterepo.app.common.utils.emailRegex
 import javax.inject.Inject
 
 class SignInViewModel @Inject constructor() : ViewModel() {

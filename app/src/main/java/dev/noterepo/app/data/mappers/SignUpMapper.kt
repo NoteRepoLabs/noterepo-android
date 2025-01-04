@@ -18,7 +18,7 @@ import dev.noterepo.app.data.models.SignUpResponseDTO
 import dev.noterepo.app.domain.models.ApiError
 import dev.noterepo.app.domain.models.SignUpRequest
 import dev.noterepo.app.domain.models.SignUpResponse
-import dev.noterepo.app.util.withDefaults
+import dev.noterepo.app.common.utils.withDefaults
 
 class SignUpMapper {
     /**
