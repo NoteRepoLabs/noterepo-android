@@ -13,45 +13,49 @@
 package dev.noterepo.app.data.mappers
 
 import dev.noterepo.app.data.models.ApiErrorDTO
-import dev.noterepo.app.data.models.SignUpRequestDTO
-import dev.noterepo.app.data.models.SignUpResponseDTO
+import dev.noterepo.app.data.models.SignInRequestDTO
+import dev.noterepo.app.data.models.SignInResponseDTO
 import dev.noterepo.app.domain.models.ApiError
-import dev.noterepo.app.domain.models.SignUpRequest
-import dev.noterepo.app.domain.models.SignUpResponse
+import dev.noterepo.app.domain.models.SignInRequest
+import dev.noterepo.app.domain.models.SignInResponse
 import dev.noterepo.app.util.withDefaults
 
-class SignUpMapper {
+class SignInMapper {
     /**
-     * This converts an API response into a data object containing only required
-     * fields for use in the UI.
+     * Maps fields from signin API response to UI and viewmodel
+     * usable states.
      */
-    fun toDomain(responseDTO: SignUpResponseDTO): SignUpResponse {
+    fun toDomain(responseDTO: SignInResponseDTO): SignInResponse {
         val payload = responseDTO.payload
         val response = payload?.let {
-            SignUpResponse(
+            SignInResponse(
                 code = responseDTO.statusCode,
                 id = it.id,
                 email = it.email,
+                username = it.username,
+                bio = it.bio,
+                role = it.role,
                 isVerified = it.isVerified,
-                createdAt = it.createdAt
+                refreshToken = it.refreshToken,
+                accessToken = it.accessToken
             )
         }
         return response.withDefaults()
     }
 
     /**
-     * This returns a sign up request data transfer object with values
-     * captured from the UI and viewmodel.
+     * Maps email and password fields from UI and view model to
+     * data layer API body (data transfer).
      */
-    fun fromDomain(request: SignUpRequest): SignUpRequestDTO {
-        return SignUpRequestDTO(
+    fun fromDomain(request: SignInRequest): SignInRequestDTO {
+        return SignInRequestDTO(
             email = request.email,
             password = request.password
         )
     }
 
     /**
-     * This returns an api error object with the appropriate error message.
+     * Returns API error object
      */
     fun toErrorDomain(errorDTO: ApiErrorDTO): ApiError {
         return ApiError(

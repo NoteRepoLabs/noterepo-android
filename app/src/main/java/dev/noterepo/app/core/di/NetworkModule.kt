@@ -10,7 +10,7 @@
  *
  */
 
-package dev.noterepo.app.di
+package dev.noterepo.app.core.di
 
 import dagger.Module
 import dagger.Provides

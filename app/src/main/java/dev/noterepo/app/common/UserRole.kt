@@ -10,17 +10,9 @@
  *
  */
 
-package dev.noterepo.app.domain.models
+package dev.noterepo.app.common
 
-data class SignUpRequest(
-    val email: String,
-    val password: String
-)
-
-data class SignUpResponse(
-    val id: String,
-    val code: Int,
-    val email: String,
-    val isVerified: Boolean,
-    val createdAt: String,
-)
+sealed class UserRole {
+    data object USER: UserRole()
+    data object ADMIN: UserRole()
+}

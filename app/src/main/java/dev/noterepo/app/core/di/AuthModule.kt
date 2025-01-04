@@ -11,12 +11,13 @@
  */
 
 
-package dev.noterepo.app.di
+package dev.noterepo.app.core.di
 
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.noterepo.app.data.mappers.SignInMapper
 import dev.noterepo.app.data.mappers.SignUpMapper
 import dev.noterepo.app.data.remote.ApiService
 import dev.noterepo.app.data.repositories.AuthRepositoryImpl
@@ -28,8 +29,12 @@ import dev.noterepo.app.domain.usecases.AuthUseCase
 object AuthModule {
     // Provide Auth Repository
     @Provides
-    fun provideAuthRepository(apiService: ApiService, signUpMapper: SignUpMapper): AuthRepository {
-        return AuthRepositoryImpl(apiService, signUpMapper)
+    fun provideAuthRepository(
+        apiService: ApiService,
+        signUpMapper: SignUpMapper,
+        signInMapper: SignInMapper
+    ): AuthRepository {
+        return AuthRepositoryImpl(apiService, signUpMapper, signInMapper)
     }
 
     // Provide Auth UseCase

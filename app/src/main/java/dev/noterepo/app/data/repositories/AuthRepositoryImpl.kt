@@ -13,7 +13,10 @@
 package dev.noterepo.app.data.repositories
 
 import dev.noterepo.app.data.mappers.SignUpMapper
+import dev.noterepo.app.data.mappers.SignInMapper
 import dev.noterepo.app.data.remote.ApiService
+import dev.noterepo.app.domain.models.SignInRequest
+import dev.noterepo.app.domain.models.SignInResponse
 import dev.noterepo.app.domain.models.SignUpRequest
 import dev.noterepo.app.domain.models.SignUpResponse
 import dev.noterepo.app.domain.repositories.AuthRepository
@@ -23,8 +26,10 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    private val signUpMapper: SignUpMapper
+    private val signUpMapper: SignUpMapper,
+    private val signInMapper: SignInMapper
 ) : AuthRepository {
+    // Implementation for sign up requests.
     override suspend fun signUp(request: SignUpRequest): Result<SignUpResponse> {
         return try {
             val requestDTO = signUpMapper.fromDomain(request)
@@ -33,14 +38,46 @@ class AuthRepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 Result.success(signUpMapper.toDomain(response.body()!!))
             } else {
-                Result.failure(Exception(response.errorBody()?.string()))
+                Result.failure(
+                    Exception(
+                        response.errorBody()
+                            ?.string()
+                    )
+                )
             }
         } catch (e: HttpException) {
-            val errorDTO = e.response()?.errorBody()?.let {
-                parseError(it)
-            }
+            val error = e.response()
+                ?.errorBody()
+                ?.let {
+                    parseError(it)
+                }
 
-            Result.failure(Exception(signUpMapper.toErrorDomain(errorDTO!!).message))
+            Result.failure(Exception(signUpMapper.toErrorDomain(error!!).message))
+        }
+    }
+
+    // Implementation for sign in requests.
+    override suspend fun signIn(request: SignInRequest): Result<SignInResponse> {
+        return try {
+            val requestDTO = signInMapper.fromDomain(request)
+            val response = apiService.signIn(requestDTO)
+            if (response.isSuccessful) {
+                Result.success(signInMapper.toDomain(response.body()!!))
+            } else {
+                Result.failure(
+                    Exception(
+                        response.errorBody()
+                            ?.string()
+                    )
+                )
+            }
+        } catch (e: HttpException) {
+            val error = e.response()
+                ?.errorBody()
+                ?.let {
+                    parseError(it)
+                }
+            Result.failure(Exception(signInMapper.toErrorDomain(error!!).message))
         }
     }
 }

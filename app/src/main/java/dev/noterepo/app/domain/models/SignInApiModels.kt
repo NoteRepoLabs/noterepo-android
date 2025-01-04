@@ -12,15 +12,21 @@
 
 package dev.noterepo.app.domain.models
 
-data class SignUpRequest(
+import dev.noterepo.app.common.UserRole
+
+data class SignInRequest(
     val email: String,
     val password: String
 )
 
-data class SignUpResponse(
-    val id: String,
+data class SignInResponse(
     val code: Int,
+    val id: String,
+    val username: String,
     val email: String,
+    val bio: String,
     val isVerified: Boolean,
-    val createdAt: String,
+    val role: UserRole,
+    val refreshToken: String,
+    val accessToken: String,
 )

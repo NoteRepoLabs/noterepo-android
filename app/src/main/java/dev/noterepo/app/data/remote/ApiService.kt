@@ -12,6 +12,8 @@
 
 package dev.noterepo.app.data.remote
 
+import dev.noterepo.app.data.models.SignInRequestDTO
+import dev.noterepo.app.data.models.SignInResponseDTO
 import dev.noterepo.app.data.models.SignUpRequestDTO
 import dev.noterepo.app.data.models.SignUpResponseDTO
 import retrofit2.Response
@@ -23,4 +25,9 @@ interface ApiService {
     suspend fun signUp(
         @Body requestDTO: SignUpRequestDTO
     ): Response<SignUpResponseDTO>
+
+    @POST("auth/sign-in")
+    suspend fun signIn(
+        @Body requestDTO: SignInRequestDTO
+    ): Response<SignInResponseDTO>
 }
