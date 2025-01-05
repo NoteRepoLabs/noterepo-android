@@ -14,6 +14,7 @@ package dev.noterepo.app
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -80,9 +81,14 @@ class MainActivity : ComponentActivity() {
 
                 // Launch another coroutine to check authentication status
                 launch {
-                    tokenManager.accessToken.first().let {
-                        isAuthenticated = true
-                    }
+//                    Log.d("MainActivity", "access token: ${
+//                        tokenManager.accessToken.first()
+//                            .toString()
+//                    }")
+
+                    val accessToken = tokenManager.accessToken.first()
+
+                    isAuthenticated = accessToken != null
                 }
 
                 keepSplashScreenOn = false
