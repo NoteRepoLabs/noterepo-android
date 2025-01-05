@@ -58,7 +58,11 @@ import dev.noterepo.app.presentation.viewmodels.SignInViewModel
 import dev.noterepo.app.common.utils.emailRegex
 
 @Composable
-fun SignInScreen(modifier: Modifier = Modifier, viewModel: SignInViewModel = hiltViewModel()) {
+fun SignInScreen(
+    modifier: Modifier = Modifier,
+    viewModel: SignInViewModel = hiltViewModel(),
+    onSignInSuccess: () -> Unit
+) {
     val uiState by viewModel.uiState
     val emailAddress by viewModel.emailAddress
     val password by viewModel.password
@@ -67,7 +71,7 @@ fun SignInScreen(modifier: Modifier = Modifier, viewModel: SignInViewModel = hil
     val snackbarMessage by viewModel.snackbarMessage
     val snackbarHostState = remember { SnackbarHostState() }
 
-    var isPasswordVisible by remember {  mutableStateOf(false) }
+    var isPasswordVisible by remember { mutableStateOf(false) }
 
     val signUpInstead = buildAnnotatedString {
         withStyle(
@@ -87,10 +91,18 @@ fun SignInScreen(modifier: Modifier = Modifier, viewModel: SignInViewModel = hil
         }
     }
 
+    // Display snackbar messages on emission
     LaunchedEffect(snackbarMessage) {
         snackbarMessage?.let { msg ->
             snackbarHostState.showSnackbar(msg)
             viewModel.resetSnackbarMessage()
+        }
+    }
+
+    // Navigate to home screen on successful signin
+    LaunchedEffect(uiState) {
+        if (uiState is UiState.Success) {
+            onSignInSuccess()
         }
     }
 

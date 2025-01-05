@@ -29,13 +29,11 @@ import dev.noterepo.app.presentation.layout.ScreenLayout
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, navController: NavController) {
     Scaffold(
-        modifier = modifier,
+        modifier = modifier.statusBarsPadding(),
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             CustomAppBar(
-                modifier = modifier
-                    .statusBarsPadding()
-                    .padding(8.dp),
+                modifier = Modifier.padding(horizontal = 8.dp),
                 onDrawerBtnClicked = {}
             )
         },

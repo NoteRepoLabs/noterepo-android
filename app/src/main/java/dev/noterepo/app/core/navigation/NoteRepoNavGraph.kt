@@ -32,10 +32,17 @@ import dev.noterepo.app.presentation.screens.SignUpCompleteScreen
 import dev.noterepo.app.presentation.screens.SignUpScreen
 import kotlinx.coroutines.launch
 
+private val slideInTransition: AnimatedContentTransitionScope<*>.() -> EnterTransition = {
+    slideIntoContainer(
+        towards = AnimatedContentTransitionScope.SlideDirection.Left,
+        animationSpec = tween(1000)
+    )
+}
+
 private val slideUpTransition: AnimatedContentTransitionScope<*>.() -> EnterTransition = {
     slideIntoContainer(
         towards = AnimatedContentTransitionScope.SlideDirection.Up,
-        animationSpec = tween(1000)
+        animationSpec = tween(500)
     )
 }
 
@@ -75,8 +82,14 @@ fun NoteRepoNavGraph(
         // SignIn Screen
         composable(
             route = Screen.SignIn.route,
-            enterTransition = slideUpTransition
-        ) { SignInScreen() }
+            enterTransition = slideInTransition
+        ) {
+            SignInScreen(onSignInSuccess = {
+                navController.navigate(Screen.Home.route) {
+                    popUpTo(Screen.SignIn.route)
+                }
+            })
+        }
 
         // SignUp Screen
         composable(Screen.SignUp.route) { SignUpScreen() }
@@ -87,7 +100,7 @@ fun NoteRepoNavGraph(
         // Home Screen
         composable(
             route = Screen.Home.route,
-            enterTransition = slideUpTransition
+            enterTransition = slideInTransition
         ) { HomeScreen(navController = navController) }
     }
 }
