@@ -42,7 +42,6 @@ import dev.noterepo.app.presentation.components.CustomAppBar
 import dev.noterepo.app.presentation.components.CustomBottomNavigationBar
 import dev.noterepo.app.presentation.components.CustomTextField
 import dev.noterepo.app.presentation.layout.ScreenLayout
-import dev.noterepo.app.presentation.ui.ModNeutral700
 import dev.noterepo.app.presentation.ui.Neutral900
 import dev.noterepo.app.presentation.ui.Typography
 import dev.noterepo.app.presentation.ui.VibrantGreen

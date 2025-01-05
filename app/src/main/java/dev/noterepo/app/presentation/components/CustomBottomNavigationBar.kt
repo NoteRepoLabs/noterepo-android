@@ -41,9 +41,11 @@ fun CustomBottomNavigationBar(modifier: Modifier = Modifier, navController: NavC
         Log.d("NavigationBar", "current: $currentRoute")
 
         BottomNavigationItem.items.forEach { item ->
+            val isSelected = currentRoute == item.route
+
             NavigationBarItem(
                 modifier = modifier,
-                selected = currentRoute == item.route,
+                selected = isSelected,
                 onClick = {
                     navController.navigate(item.route) {
                         popUpTo(Screen.Home.route) {
@@ -56,18 +58,24 @@ fun CustomBottomNavigationBar(modifier: Modifier = Modifier, navController: NavC
                 icon = {
                     Icon(
                         painter = painterResource(
-                            if (currentRoute == item.route) item.selectedIcon
+                            if (isSelected) item.selectedIcon
                             else item.unselectedIcon
                         ),
                         contentDescription = null,
                         modifier = Modifier.size(24.dp),
                     )
                 },
-                label = { Text(item.label) },
+                label = {
+                    Text(
+                        text = item.label,
+                        color = if (isSelected) VibrantGreen
+                        else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6F)
+                    )
+                },
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = VibrantGreen,
-                    unselectedIconColor = MaterialTheme.colorScheme.onSurface.copy(alpha=0.6F),
-                    indicatorColor = VibrantGreen.copy(alpha=0.2F)
+                    unselectedIconColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6F),
+                    indicatorColor = VibrantGreen.copy(alpha = 0.2F)
                 )
             )
         }
