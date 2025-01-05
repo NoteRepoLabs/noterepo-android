@@ -9,3 +9,5 @@ Android client for NoteRepo, written in Kotlin and Jetpack Compose.
 3. Network: Retrofit + OkHttp
 4. Splash: Native Splash API
 5. Animations: Lottie
+6. Dependency Injection: Dagger, Hilt
+7. Preferences: Datastore
