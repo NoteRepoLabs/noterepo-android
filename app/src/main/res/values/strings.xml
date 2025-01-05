@@ -22,6 +22,10 @@
     <string name="signin_progress">Signing In</string>
     <string name="signin_alternative_up">Don\'t have an account yet?</string>
 
+    <!--  HOME  -->
+    <string name="home_searchbar">Find anything</string>
+    <string name="home_newrepo">New Repo</string>
+
     <!--  GENERAL  -->
     <string name="acknowledgement">By using NoteRepo you agree to our terms and privacy policy.</string>
 </resources>

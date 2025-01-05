@@ -41,6 +41,7 @@ fun CustomTextField(
     modifier: Modifier = Modifier,
     type: String = "text",
     isError: Boolean = false,
+    leadingIcon: @Composable() (() -> Unit)? = null,
 ) {
     OutlinedTextField(
         value = value,
@@ -54,7 +55,7 @@ fun CustomTextField(
         shape = RoundedCornerShape(8.dp),
         colors = OutlinedTextFieldDefaults.colors(
             unfocusedBorderColor = if (isError) VibrantRed else MaterialTheme.colorScheme.outline,
-            focusedBorderColor = if (isError) VibrantRed else MaterialTheme.colorScheme.onSurface,
+            focusedBorderColor = if (isError) VibrantRed else MaterialTheme.colorScheme.onSurfaceVariant,
             unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
             focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer
         ),
@@ -66,6 +67,7 @@ fun CustomTextField(
             }
         ),
         textStyle = MaterialTheme.typography.bodyMedium.copy(fontSize = 12.sp),
+        leadingIcon = leadingIcon
     )
 }
 
@@ -95,7 +97,7 @@ fun CustomPasswordField(
             .height(50.dp),
         colors = OutlinedTextFieldDefaults.colors(
             unfocusedBorderColor = if (isError) VibrantRed else MaterialTheme.colorScheme.outline,
-            focusedBorderColor = if (isError) VibrantRed else MaterialTheme.colorScheme.onSurface,
+            focusedBorderColor = if (isError) VibrantRed else MaterialTheme.colorScheme.onSurfaceVariant,
             unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
             focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer
         ),

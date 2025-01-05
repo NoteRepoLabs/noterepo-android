@@ -150,6 +150,7 @@ fun SignInScreen(
                 invertPasswordVisibility = { isPasswordVisible = !isPasswordVisible }
             )
 
+            // Error label
             if (uiErrorMessage.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(24.dp))
                 Text(
