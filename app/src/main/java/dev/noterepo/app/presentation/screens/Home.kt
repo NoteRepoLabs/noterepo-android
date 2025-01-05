@@ -21,11 +21,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import dev.noterepo.app.presentation.components.CustomAppBar
+import dev.noterepo.app.presentation.components.CustomBottomNavigationBar
 import dev.noterepo.app.presentation.layout.ScreenLayout
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(modifier: Modifier = Modifier, navController: NavController) {
     Scaffold(
         modifier = modifier,
         containerColor = MaterialTheme.colorScheme.surface,
@@ -36,7 +38,8 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                     .padding(8.dp),
                 onDrawerBtnClicked = {}
             )
-        }
+        },
+        bottomBar = { CustomBottomNavigationBar(navController = navController) }
     ) { innerPadding ->
         ScreenLayout(innerPadding = innerPadding, shouldCenter = true) {
             Text(text = "Welcome Home!", textAlign = TextAlign.Center)

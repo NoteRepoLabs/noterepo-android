@@ -13,6 +13,7 @@
 package dev.noterepo.app.core.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -31,6 +32,13 @@ import dev.noterepo.app.presentation.screens.SignUpCompleteScreen
 import dev.noterepo.app.presentation.screens.SignUpScreen
 import kotlinx.coroutines.launch
 
+private val slideUpTransition: AnimatedContentTransitionScope<*>.() -> EnterTransition = {
+    slideIntoContainer(
+        towards = AnimatedContentTransitionScope.SlideDirection.Up,
+        animationSpec = tween(1000)
+    )
+}
+
 @Composable
 fun NoteRepoNavGraph(
     navController: NavHostController,
@@ -41,52 +49,45 @@ fun NoteRepoNavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = "signin",
+        startDestination = Screen.SignIn.route,
         modifier = modifier,
     ) {
+        // Onboarding Screen
         composable(
-            "onboarding",
-            enterTransition = {
-                slideIntoContainer(
-                    towards = AnimatedContentTransitionScope.SlideDirection.Up,
-                    tween(1000)
-                )
-            }
+            Screen.Onboarding.route,
+            enterTransition = slideUpTransition
         ) {
             OnboardingScreen(onComplete = {
                 scope.launch {
+
                     context.dataStore.edit { prefs ->
                         prefs[PreferenceKeys.ONBOARDING_COMPLETED] = true
                     }
-                    navController.navigate("signin") {
-                        popUpTo("onboarding")
+
+                    navController.navigate(Screen.SignIn.route) {
+                        popUpTo(Screen.Onboarding.route)
                     }
+
                 }
             })
         }
 
+        // SignIn Screen
         composable(
-            route = "signin",
-            enterTransition = {
-                slideIntoContainer(
-                    towards = AnimatedContentTransitionScope.SlideDirection.Up,
-                    tween(1000)
-                )
-            }
+            route = Screen.SignIn.route,
+            enterTransition = slideUpTransition
         ) { SignInScreen() }
 
-        composable("signup") { SignUpScreen() }
+        // SignUp Screen
+        composable(Screen.SignUp.route) { SignUpScreen() }
 
-        composable("signup_complete") { SignUpCompleteScreen() }
+        // SignUp Complete Screen
+        composable(Screen.SignUpComplete.route) { SignUpCompleteScreen() }
 
+        // Home Screen
         composable(
-            route = "home",
-            enterTransition = {
-                slideIntoContainer(
-                    towards = AnimatedContentTransitionScope.SlideDirection.Up,
-                    tween(1000)
-                )
-            }
-        ) { HomeScreen() }
+            route = Screen.Home.route,
+            enterTransition = slideUpTransition
+        ) { HomeScreen(navController = navController) }
     }
 }

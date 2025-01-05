@@ -14,7 +14,6 @@ package dev.noterepo.app
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -81,10 +80,10 @@ class MainActivity : ComponentActivity() {
 
                 // Launch another coroutine to check authentication status
                 launch {
-//                    Log.d("MainActivity", "access token: ${
-//                        tokenManager.accessToken.first()
-//                            .toString()
-//                    }")
+                    // Log.d("MainActivity", "access token: ${
+                    //    tokenManager.accessToken.first()
+                    //        .toString()
+                    // }")
 
                     val accessToken = tokenManager.accessToken.first()
 
@@ -103,7 +102,9 @@ class MainActivity : ComponentActivity() {
                     when {
                         showOnboarding == null || isAuthenticated == null -> {}
 
-                        showOnboarding == true -> OnboardingScreen(modifier = Modifier.padding(innerPadding),
+                        showOnboarding == true -> OnboardingScreen(modifier = Modifier.padding(
+                            innerPadding
+                        ),
                             onComplete = {
                                 scope.launch {
                                     context.dataStore.edit { prefs ->
@@ -113,7 +114,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             })
 
-                        isAuthenticated == true -> HomeScreen()
+                        isAuthenticated == true -> HomeScreen(navController = navController)
 
                         else -> NoteRepoNavGraph(
                             modifier = Modifier.padding(innerPadding),
