@@ -12,7 +12,6 @@
 
 package dev.noterepo.app
 
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -31,9 +30,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import dev.noterepo.app.common.utils.appDataStore
 import dev.noterepo.app.core.navigation.NoteRepoNavGraph
 import dev.noterepo.app.data.local.preferences.PreferenceKeys
 import dev.noterepo.app.data.local.preferences.TokenManager
@@ -46,8 +45,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val Context.dataStore by preferencesDataStore(name = "onboarding_prefs")
-
     @Inject
     lateinit var tokenManager: TokenManager
 
@@ -74,17 +71,12 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(Unit) {
                 // Launch coroutine to check onboarding status
                 launch {
-                    val prefs = context.dataStore.data.first()
+                    val prefs = context.appDataStore.data.first()
                     showOnboarding = !(prefs[PreferenceKeys.ONBOARDING_COMPLETED] ?: false)
                 }
 
                 // Launch another coroutine to check authentication status
                 launch {
-                    // Log.d("MainActivity", "access token: ${
-                    //    tokenManager.accessToken.first()
-                    //        .toString()
-                    // }")
-
                     val accessToken = tokenManager.accessToken.first()
 
                     isAuthenticated = accessToken != null
@@ -107,7 +99,7 @@ class MainActivity : ComponentActivity() {
                         ),
                             onComplete = {
                                 scope.launch {
-                                    context.dataStore.edit { prefs ->
+                                    context.appDataStore.edit { prefs ->
                                         prefs[PreferenceKeys.ONBOARDING_COMPLETED] = true
                                     }
                                     showOnboarding = false

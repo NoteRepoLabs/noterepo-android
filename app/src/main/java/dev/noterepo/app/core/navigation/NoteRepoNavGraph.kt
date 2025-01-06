@@ -23,7 +23,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import dev.noterepo.app.common.utils.dataStore
+import dev.noterepo.app.common.utils.appDataStore
 import dev.noterepo.app.data.local.preferences.PreferenceKeys
 import dev.noterepo.app.presentation.screens.HomeScreen
 import dev.noterepo.app.presentation.screens.OnboardingScreen
@@ -67,7 +67,7 @@ fun NoteRepoNavGraph(
             OnboardingScreen(onComplete = {
                 scope.launch {
 
-                    context.dataStore.edit { prefs ->
+                    context.appDataStore.edit { prefs ->
                         prefs[PreferenceKeys.ONBOARDING_COMPLETED] = true
                     }
 
